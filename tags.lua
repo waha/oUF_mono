@@ -195,11 +195,13 @@ oUF.Tags.Events['mono:hpraid'] = 'UNIT_HEALTH UNIT_MAXHEALTH UNIT_CONNECTION'
 
 -- power value tags
 oUF.Tags.Methods['mono:pp'] = function(u)
-	local _, str = UnitPowerType(u)
-	local col = pcolors.power[str] or {250/255,  75/255,  60/255}
-	if cfg.oUF.settings.class_color_power then col = oUF.colors.class[select(2,UnitClass(u))] end
-	if str then
-		return hex(col)..SVal(UnitPower(u))
+	if u == "player" or u == "target" and UnitLevel(u) < 0 then
+		local _, str = UnitPowerType(u)
+		local col = pcolors.power[str] or {250/255,  75/255,  60/255}
+		if cfg.oUF.settings.class_color_power then col = oUF.colors.class[select(2,UnitClass(u))] end
+		if str then
+			return hex(col)..SVal(UnitPower(u))
+		end
 	end
 end
 oUF.Tags.Events['mono:pp'] = oUF.Tags.Events.missingpp
