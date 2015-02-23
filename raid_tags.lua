@@ -81,21 +81,6 @@ local function CalcDebuff(uid, debuff) -- to fill some information gaps of UnitD
 end
 
 -----------------[[ GENERAL TAGS ]]-----------------
-oUF.Tags.Methods['raid:wrack'] = function(u) -- Sinestra's specific debuff
-	local name,_,_,_,dur,_,remaining = CalcDebuff(u,92956) -- 57724 debug
-	if not (name and remaining) then return end
-	if remaining > 14 then -- FOAD
-		return "|cffFF0000"..x.."|r"
-	elseif remaining > 10 then -- criticall! dispel now!
-		return "|cffFFCC00"..x.."|r"
-	elseif remaining > 8 then -- start thinking about dispel!
-		return "|cff00FF00"..x.."|r"
-	else
-		return "|cffB1C4B9"..x.."|r"
-	end
-end
-oUF.Tags.Events['raid:wrack'] = "UNIT_AURA"
-
 oUF.Tags.Methods['raid:aggro'] = function(u) 
 	local s = UnitThreatSituation(u) if s == 2 or s == 3 then return "|cffFF0000"..x.."|r" end end
 oUF.Tags.Events['raid:aggro'] = "UNIT_THREAT_SITUATION_UPDATE"
@@ -250,21 +235,21 @@ oUF.classIndicators={
 		["DRUID"] = {
 				["TL"] = "[raid:regrow][raid:wg]",
 				["TR"] = "[raid:lb]",
-				["BL"] = "[raid:wrack]",
+				["BL"] = "",
 				["BR"] = "[raid:motw]",
 				["Cen"] = "[raid:rejuvTime]",
 		},
 		["PRIEST"] = {
 				["TL"] = "[raid:pws][raid:ws]",
 				["TR"] = "[raid:pom]",
-				["BL"] = "[raid:fw][raid:wrack]",
+				["BL"] = "[raid:fw]",
 				["BR"] = "[raid:fort]",
 				["Cen"] = "[raid:rnwTime]",
 		},
 		["PALADIN"] = {
 				["TL"] = "[raid:HoS][raid:HoF][raid:HoP][raid:forb]",
 				["TR"] = "[raid:ssh]",
-				["BL"] = "[raid:wrack][raid:beacon]",
+				["BL"] = "[raid:beacon]",
 				["BR"] = "[raid:might][raid:motw]",
 				["Cen"] = "[raid:eflTime]",
 				
@@ -272,56 +257,56 @@ oUF.classIndicators={
 		["WARLOCK"] = {
 				["TL"] = "[raid:ss]",
 				["TR"] = "",
-				["BL"] = "[raid:wrack]",
+				["BL"] = "",
 				["BR"] = "",
 				["Cen"] = "",
 		},
 		["WARRIOR"] = {
 				["TL"] = "",
 				["TR"] = "",
-				["BL"] = "[raid:wrack]",
+				["BL"] = "",
 				["BR"] = "[raid:fort][raid:bsh]",
 				["Cen"] = "",
 		},
 		["DEATHKNIGHT"] = {
 				["TL"] = "",
 				["TR"] = "",
-				["BL"] = "[raid:wrack]",
+				["BL"] = "",
 				["BR"] = "[raid:how]",
 				["Cen"] = "",
 		},
 		["SHAMAN"] = {
 				["TL"] = "",
 				["TR"] = "[raid:earth]",
-				["BL"] = "[raid:wrack]",
+				["BL"] = "",
 				["BR"] = "",
 				["Cen"] = "[raid:ripTime]",
 		},
 		["HUNTER"] = {
 				["TL"] = "",
 				["TR"] = "",
-				["BL"] = "[raid:wrack]",
+				["BL"] = "",
 				["BR"] = "",
 				["Cen"] = "",
 		},
 		["ROGUE"] = {
 				["TL"] = "[raid:tricks]",
 				["TR"] = "",
-				["BL"] = "[raid:wrack]",
+				["BL"] = "",
 				["BR"] = "",
 				["Cen"] = "",
 		},
 		["MAGE"] = {
 				["TL"] = "",
 				["TR"] = "",
-				["BL"] = "[raid:wrack]",
+				["BL"] = "",
 				["BR"] = "[raid:brill]",
 				["Cen"] = "",
 		},
 		["MONK"] = {
 				["TL"] = "[raid:em]",
 				["TR"] = "",
-				["BL"] = "[raid:lc][raid:wrack]",
+				["BL"] = "[raid:lc]",
 				["BR"] = "[raid:motw]",
 				["Cen"] = "[raid:rmTime]",
 		}
