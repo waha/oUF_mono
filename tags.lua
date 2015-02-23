@@ -310,7 +310,7 @@ oUF.Tags.Events['mono:altpower'] = 'UNIT_POWER'
 -- combo points
 oUF.Tags.Methods['mono:cp'] = function(u)
 	local cp = UnitExists("vehicle") and GetComboPoints("vehicle", "target") or GetComboPoints("player", "target")
-	cpcol = {"8AFF30","FFF130","FF6161"}
+	local cpcol = {"8AFF30","FFF130","FF6161"}
 	if cp == 1 then		return "|cff"..cpcol[1].."_|r" 
 	elseif cp == 2 then	return "|cff"..cpcol[1].."_ _|r"
 	elseif cp == 3 then	return "|cff"..cpcol[1].."_ _|r |cff"..cpcol[2].."_|r" 
@@ -410,7 +410,7 @@ oUF.Tags.Events['raid:lb'] = "UNIT_AURA"
 if select(2, UnitClass("player")) == "DRUID" then
 	for i=1,3 do
 		oUF.Tags.Methods['mono:wm'..i] = function(u)
-			_,_,_,dur = GetTotemInfo(i)
+			local _,_,_,dur = GetTotemInfo(i)
 			if dur > 0 then
 				return "|cffFF6161_ |r"
 			end
