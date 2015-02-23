@@ -1,5 +1,5 @@
-## Interface: 50400
-## Version: 5.3.1
+## Interface: 60000
+## Version: 5.3.1 (community update)
 ## Title: oUF |cffffffffmono|r
 ## Notes: oUF layout
 ## OptionalDeps: oUF_Smooth, oUF_HealComm, oUF_Swing
