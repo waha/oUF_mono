@@ -99,7 +99,7 @@ oUF.Tags.Events['mono:gridcolor'] = oUF.Tags.Events.missinghp
 -- type and level information
 oUF.Tags.Methods['mono:info'] = function(u) 
 	local level = UnitLevel(u)
-    local race = UnitRace(u) or nil
+    local race = UnitRace(u) or ""
 	local class = cfg.oUF.settings.show_class and UnitClass(u) or ""
 	local typ = UnitClassification(u)
 	local color = GetQuestDifficultyColor(level)
@@ -114,7 +114,7 @@ oUF.Tags.Methods['mono:info'] = function(u)
 	elseif typ=="rare" then
 		return hex(color)..level..'r'
 	else
-		if UnitIsPlayer(u) then
+		if UnitIsPlayer(u) and UnitClass(u) ~= nil then
 			--if level == 80 then level = "" end 
 			-- select(2,UnitClass(u)) hex(oUF.colors.class[select(2,UnitClass(u))])
 			if u=='player' then race = "" end
