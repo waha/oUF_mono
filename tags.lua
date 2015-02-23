@@ -338,27 +338,33 @@ oUF.Tags.Methods['mono:ls'] = function(u)
 		elseif mwc == 2 then
 			return "|cff8AFF30_ _|r"
 		elseif mwc == 3 then
-			return "|cff8AFF30_ _|r |cffFFF130_ _|r"
+			return "|cff8AFF30_ _|r |cffFFF130_|r"
 		elseif mwc == 4 then
 			return "|cff8AFF30_ _|r |cffFFF130_ _|r"
 		elseif mwc == 5 then
 			return "|cffFF6161_ _ _ _ _|r"
 		end
-	else
+	elseif lsn then
 		if lsc == 1 then
-			return "|cff434343_|r"
-		elseif lsc == 2 then
-			return "|cff434343_ _|r"
+			return ""
+		end
+
+		local ils, _, _, ilc = UnitBuff("player",GetSpellInfo(157774))
+		if ils then
+			lsc = math.floor(lsc / 4)
+		else
+			lsc = math.floor(lsc / 3)
+		end
+		if lsc == 2 then
+			return "|cff8AFF30_ _|r"
 		elseif lsc == 3 then
-			return "|cff434343_ _ _|r"
+			return "|cff8AFF30_ _|r |cffFFF130_|r"
+		elseif lsc == 4 then
+			return "|cff8AFF30_ _|r |cffFFF130_ _|r"
 		elseif lsc == 5 then
-			return "|cffFFF130_|r |cff434343_ _|r"
-		elseif lsc == 6 then
-			return "|cffFF6161_ _|r |cff434343_|r"
-		elseif lsc == 7 then
-			return "|cffFF6161_ _ _|r"
+			return "|cffFF6161_ _ _ _ _|r"
 		elseif lsc then
-			return "|cff434343_ _ _|r"
+			return "|cff8AFF30_|r"
 		end
 	end
 end
