@@ -37,7 +37,8 @@ local L = {
   ['Earth Shield'] = GetSpellInfo(974),
   ['Riptide'] = GetSpellInfo(61295),
 	--monk
-  ["Legacy of the Emperor"] = GetSpellInfo(115921), -- mark / bok
+  ["Legacy of the White Tiger"] = GetSpellInfo(116781),
+  ["Legacy of the Emperor"] = GetSpellInfo(115921),
   ["Enveloping Mist"] = GetSpellInfo(124682),
   ["Renewing Mist"] = GetSpellInfo(119611),
   ["Life Cocoon"] = GetSpellInfo(116849),
@@ -140,7 +141,7 @@ oUF.Tags.Methods['raid:regrow'] = function(u) if UnitAura(u, L["Regrowth"]) then
 oUF.Tags.Events['raid:regrow'] = "UNIT_AURA"
 oUF.Tags.Methods['raid:wg'] = function(u) if UnitAura(u, L["Wild Growth"]) then return "|cff33FF33"..x.."|r" end end
 oUF.Tags.Events['raid:wg'] = "UNIT_AURA"
-oUF.Tags.Methods['raid:motw'] = function(u) if not(UnitAura(u, L["Mark of the Wild"]) or UnitAura(u,L["Blessing of Kings"]) or UnitAura(u,L["Legacy of the Emperor"])) then return "|cff00A1DE"..x.."|r" end end
+oUF.Tags.Methods['raid:motw'] = function(u) if not(UnitAura(u, L["Mark of the Wild"]) or UnitAura(u,L["Blessing of Kings"]) or UnitAura(u,L["Legacy of the White Tiger"]) or UnitAura(u,L["Legacy of the Emperor"])) then return "|cff00A1DE"..x.."|r" end end
 oUF.Tags.Events['raid:motw'] = "UNIT_AURA"
 
 --warrior
