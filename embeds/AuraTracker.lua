@@ -8,7 +8,6 @@ local function GetAuras()
 		--[GetSpellInfo(61295)] 	= 3, 	-- Riptide(debug)
 		
 		[GetSpellInfo(33786)] 	= 3, 	-- Cyclone
-		[GetSpellInfo(2637)] 	= 3,	-- Hibernate
 		[GetSpellInfo(55041)] 	= 3, 	-- Freezing Trap Effect
 		[GetSpellInfo(6770)]	= 3, 	-- Sap
 		[GetSpellInfo(2094)]	= 3, 	-- Blind
@@ -39,8 +38,6 @@ local function GetAuras()
 		[GetSpellInfo(1776)]	= 3, 	-- Gouge
 		[GetSpellInfo(44572)]	= 3, 	-- Deep Freeze
 		[GetSpellInfo(19386)]	= 3, 	-- Wyvern Sting
-		[GetSpellInfo(19503)] 	= 3, 	-- Scatter Shot
-		[GetSpellInfo(9005)]	= 3, 	-- Pounce
 		[GetSpellInfo(22570)]	= 3, 	-- Maim
 		[GetSpellInfo(853)]		= 3, 	-- Hammer of Justice
 		[GetSpellInfo(20066)] 	= 3, 	-- Repentance
@@ -51,23 +48,17 @@ local function GetAuras()
 		-- Silences
 		--[GetSpellInfo(18469)] 	= 1,	-- Improved Counterspell
 		[GetSpellInfo(15487)] 	= 1, 	-- Silence
-		[GetSpellInfo(34490)] 	= 1, 	-- Silencing Shot	
 		--[GetSpellInfo(18425)]	= 1,	-- Improved Kick
 		[GetSpellInfo(47476)]	= 1,	-- Strangulate
 		
-		-- Disarms
-		[GetSpellInfo(676)] 	= 1, 	-- Disarm
-		[GetSpellInfo(51722)] 	= 1,	-- Dismantle				
 		-- Buffs
 		[GetSpellInfo(1022)] 	= 1,	-- Blessing of Protection
 		[GetSpellInfo(1044)] 	= 1, 	-- Blessing of Freedom
 		[GetSpellInfo(2825)] 	= 1, 	-- Bloodlust
 		[GetSpellInfo(32182)] 	= 1, 	-- Heroism
 		[GetSpellInfo(33206)] 	= 1, 	-- Pain Suppression
-		[GetSpellInfo(29166)] 	= 1,	-- Innervate
 		--[GetSpellInfo(18708)]  	= 1,	-- Fel Domination
-		[GetSpellInfo(54428)]	= 1,	-- Divine Plea
-		[GetSpellInfo(31821)]	= 1,	-- Aura mastery
+		[GetSpellInfo(31821)]	= 1,	-- Devotion Aura
 		
 		-- Turtling abilities
 		[GetSpellInfo(871)]	= 1,	-- Shield Wall
@@ -76,7 +67,6 @@ local function GetAuras()
 		[GetSpellInfo(19263)]	= 1,	-- Deterrence
 		
 		-- Immunities
-		[GetSpellInfo(34692)] 	= 2, 	-- The Beast Within
 		[GetSpellInfo(45438)] 	= 2, 	-- Ice Block
 		[GetSpellInfo(642)] 	= 2,	-- Divine Shield
 		
