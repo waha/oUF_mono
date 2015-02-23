@@ -10,6 +10,7 @@ local L = {
   ["Weakened Soul"] = GetSpellInfo(6788),
   ["Power Word: Fortitude"] = GetSpellInfo(21562),
   ["Fear Ward"] = GetSpellInfo(6346),
+  ["Clarity of Will"] = GetSpellInfo(152118),
 	--druid
   ["Lifebloom"] = GetSpellInfo(33763),
   ["Rejuvenation"] = GetSpellInfo(774),
@@ -111,6 +112,8 @@ oUF.Tags.Methods['raid:pws'] = function(u) if UnitAura(u, L["Power Word: Shield"
 oUF.Tags.Events['raid:pws'] = "UNIT_AURA"
 oUF.Tags.Methods['raid:ws'] = function(u) if UnitDebuff(u, L["Weakened Soul"]) then return "|cffFF9900"..x.."|r" end end
 oUF.Tags.Events['raid:ws'] = "UNIT_AURA"
+oUF.Tags.Methods['raid:clow'] = function(u) if UnitAura(u, L["Clarity of Will"]) then return "|cff33FFFF"..x.."|r" end end
+oUF.Tags.Events['raid:clow'] = "UNIT_AURA"
 oUF.Tags.Methods['raid:fw'] = function(u) if UnitAura(u, L["Fear Ward"]) then return "|cff8B4513"..x.."|r" end end
 oUF.Tags.Events['raid:fw'] = "UNIT_AURA"
 oUF.Tags.Methods['raid:fort'] = function(u) local c = UnitAura(u, L["Power Word: Fortitude"]) or UnitAura(u, L["Commanding Shout"]) if not c then return "|cff00A1DE"..x.."|r" end end
@@ -240,7 +243,7 @@ oUF.classIndicators={
 				["Cen"] = "[raid:rejuvTime]",
 		},
 		["PRIEST"] = {
-				["TL"] = "[raid:pws][raid:ws]",
+				["TL"] = "[raid:pws][raid:ws][raid:clow]",
 				["TR"] = "[raid:pom]",
 				["BL"] = "[raid:fw]",
 				["BR"] = "[raid:fort]",
