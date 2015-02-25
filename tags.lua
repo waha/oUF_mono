@@ -221,7 +221,7 @@ oUF.Tags.Events['mono:name'] = 'UNIT_NAME_UPDATE UNIT_CONNECTION'
 
 oUF.Tags.Methods['mono:longname'] = function(u, r)
 	local name = UnitName(r or u)
-	return utf8sub(name, 20, true)
+	return utf8sub(name, 19, true)
 end
 oUF.Tags.Events['mono:longname'] = 'UNIT_NAME_UPDATE UNIT_CONNECTION'
 
