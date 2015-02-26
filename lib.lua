@@ -251,6 +251,9 @@
     if f.mystyle == "arenatarget" or f.mystyle == "partypet" then
       f:Tag(name, '[mono:color][mono:shortname]')
       f:Tag(hpval, '[mono:hpraid]')
+    elseif f.mystyle == "tot" then
+      f:Tag(name, '[mono:pvp][mono:color][mono:mediumname]')
+      f:Tag(hpval, '[mono:hp]')
     else
       f:Tag(name, '[mono:pvp][mono:color][mono:longname]')
       f:Tag(hpval, '[mono:hp]')
