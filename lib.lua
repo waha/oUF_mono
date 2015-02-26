@@ -22,6 +22,7 @@
   lib.gen_fontstring = function(f, name, size, outline)
     local fs = f:CreateFontString(nil, "OVERLAY")
     fs:SetFont(name, size, outline)
+    fs:SetWordWrap(false)
     fs:SetShadowColor(0,0,0,1)
 --    fs:SetTextColor(1,1,1)
     return fs
@@ -251,9 +252,6 @@
     if f.mystyle == "arenatarget" or f.mystyle == "partypet" then
       f:Tag(name, '[mono:color][mono:shortname]')
       f:Tag(hpval, '[mono:hpraid]')
-    elseif f.mystyle == "tot" then
-      f:Tag(name, '[mono:pvp][mono:color][mono:mediumname]')
-      f:Tag(hpval, '[mono:hp]')
     else
       f:Tag(name, '[mono:pvp][mono:color][mono:longname]')
       f:Tag(hpval, '[mono:hp]')
