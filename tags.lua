@@ -394,15 +394,15 @@ oUF.Tags.Events['raid:pom'] = "UNIT_AURA"
 -- Lifebloom
 --oUF.lbCount = { 1, 2, 3 }
 oUF.Tags.Methods['raid:lb'] = function(u) 
-	local _, _,_, c,_,_, expirationTime, source,_ = UnitAura(u, GetSpellInfo(33763))
-	if not (source == "player") or (c == 0) then return end
+	local _, _,_, _,_,_, expirationTime, source,_ = UnitAura(u, GetSpellInfo(33763))
+	if not (source == "player") then return end
 	local spellTimer = GetTime()-expirationTime
 	if spellTimer > -2 then
-		return "|cffFF0000"..c.."|r"
+		return "|cffFF0000L|r"
 	elseif spellTimer > -4 then
-		return "|cffFF9900"..c.."|r"
+		return "|cffFF9900L|r"
 	else
-		return "|cffA7FD0A"..c.."|r"
+		return "|cffA7FD0AL|r"
 	end
 end
 oUF.Tags.Events['raid:lb'] = "UNIT_AURA"
@@ -416,6 +416,7 @@ if select(2, UnitClass("player")) == "DRUID" then
 			end
 		end
 		oUF.Tags.Events['mono:wm'..i] = 'PLAYER_TOTEM_UPDATE'
+		oUF.Tags.SharedEvents["PLAYER_TOTEM_UPDATE"] = true
 		--oUF.UnitlessTags.Events.PLAYER_TOTEM_UPDATE = true
 	end
 end

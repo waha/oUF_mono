@@ -14,6 +14,7 @@ local L = {
 	--druid
   ["Lifebloom"] = GetSpellInfo(33763),
   ["Rejuvenation"] = GetSpellInfo(774),
+  ["Rejuvenation (Germination)"] = GetSpellInfo(155777),
   ["Regrowth"] = GetSpellInfo(8936),
   ["Wild Growth"] = GetSpellInfo(48438),
   ["Mark of the Wild"] = GetSpellInfo(1126), -- bok/legacy
