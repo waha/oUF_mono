@@ -1,6 +1,6 @@
 local parent, ns = ...
 local global = GetAddOnMetadata(parent, 'X-oUF')
-local _VERSION = '@project-version@'
+local _VERSION = '7.0.16'
 if(_VERSION:find('project%-version')) then
 	_VERSION = 'devel'
 end
@@ -179,7 +179,13 @@ for k, v in next, {
 		UnregisterUnitWatch(self)
 		self:Hide()
 	end,
+	--[[ frame:IsEnabled()
+	Used to check if a unit frame is registered with the unit existence monitor. This is a reference to
+	`UnitWatchRegistered`.
 
+	* self - unit frame
+	--]]
+	IsEnabled = UnitWatchRegistered,
 	--[[ frame:UpdateAllElements(event)
 	Used to update all enabled elements on the given frame.
 
@@ -586,7 +592,7 @@ do
 	* template     - name of a template to be used for creating the header. Defaults to `'SecureGroupHeaderTemplate'`
 	                 (string?)
 	* visibility   - macro conditional(s) which define when to display the header (string).
-	* ...          - further argument pairs. Consult [Group Headers](http://wowprogramming.com/docs/secure_template/Group_Headers)
+	* ...          - further argument pairs. Consult [Group Headers](http://wowprogramming.com/docs/secure_template/Group_Headers.html)
 	                 for possible values.
 
 	In addition to the standard group headers, oUF implements some of its own attributes. These can be supplied by the
@@ -648,6 +654,9 @@ do
 
 	-- The remainder of this scope is a temporary fix for issue #404,
 	-- regarding vehicle support on headers for the Antorus raid instance.
+	-- Track changes to SecureButton_GetModifiedUnit, this hack should be
+	-- removed when UnitTargetsVehicleInRaidUI is added to it. Supposedly,
+	-- it should happen in 8.x.
 	local isHacked = false
 	local shouldHack
 
@@ -665,19 +674,11 @@ do
 	end
 
 	local eventHandler = CreateFrame('Frame')
-	eventHandler:RegisterEvent('PLAYER_LOGIN')
 	eventHandler:RegisterEvent('ZONE_CHANGED_NEW_AREA')
+	eventHandler:RegisterEvent('PLAYER_ENTERING_WORLD')
 	eventHandler:RegisterEvent('PLAYER_REGEN_ENABLED')
 	eventHandler:SetScript('OnEvent', function(_, event)
-		if(event == 'PLAYER_LOGIN') then
-			local _, _, _, _, _, _, _, id = GetInstanceInfo()
-			if(id == 1712) then
-				initialConfigFunction = initialConfigFunctionTemp:format(0)
-
-				-- This is here for layouts that don't use oUF:Factory
-				toggleHeaders(false)
-			end
-		elseif(event == 'ZONE_CHANGED_NEW_AREA') then
+		if(event == 'ZONE_CHANGED_NEW_AREA') then
 			local _, _, _, _, _, _, _, id = GetInstanceInfo()
 			if(id == 1712 and not isHacked) then
 				initialConfigFunction = initialConfigFunctionTemp:format(0)
@@ -687,7 +688,7 @@ do
 				else
 					shouldHack = true
 				end
-			elseif(isHacked) then
+			elseif(id ~= 1712 and isHacked) then
 				initialConfigFunction = initialConfigFunctionTemp:format(1)
 
 				if(not InCombatLockdown()) then
@@ -695,6 +696,17 @@ do
 				else
 					shouldHack = false
 				end
+			end
+		elseif(event == 'PLAYER_ENTERING_WORLD') then
+			local _, _, _, _, _, _, _, id = GetInstanceInfo()
+			if(id == 1712 and not isHacked) then
+				initialConfigFunction = initialConfigFunctionTemp:format(0)
+
+				toggleHeaders(false)
+			elseif(id ~= 1712 and isHacked) then
+				initialConfigFunction = initialConfigFunctionTemp:format(1)
+
+				toggleHeaders(true)
 			end
 		elseif(event == 'PLAYER_REGEN_ENABLED') then
 			if(isHacked and shouldHack == false) then
