@@ -1,10 +1,10 @@
   local addon, ns = ...
   local cfg = CreateFrame("Frame")
 
-  cfg.oUF = { 
+  cfg.oUF = {
     -- CONFIG
 	settings = {		-- general settings
-		ReverseHPbars = false,				-- fill health bars from right to left instead of standard left -> right direction 
+		ReverseHPbars = false,				-- fill health bars from right to left instead of standard left -> right direction
 		health_spark = true,				-- add spark to the health bar
 		class_color_power = false,			-- class color power bar
 		show_class = false,					-- display additional class indication @ unit frames
@@ -32,20 +32,20 @@
 			["undock"] = true,				-- set custom position for it
 			["position"] = {"BOTTOM", "UIParent", "BOTTOM", 0, 275},
 		},
-		click2focus = {					
+		click2focus = {
 			["enable"] = true,				-- set focus macro on modified frame click (may cause taint)
 			["key"] = "Shift",				-- modifier key to focus
 		},
 	},
 	frames = {			-- unit frames settings
 		player = {						-- Player's frame
-			["position"] = {"TOP","UIParent","BOTTOM", -274, 273},		
+			["position"] = {"TOP","UIParent","BOTTOM", -274, 273},
 			["width"] = 229,
 			["height"] = 24,
 			["scale"] = 1,
 		},
 		target = {						-- Target's frame
-			["position"] = {"TOP","UIParent","BOTTOM", 274, 273},	
+			["position"] = {"TOP","UIParent","BOTTOM", 274, 273},
 			["width"] = 229,
 			["height"] = 24,
 			["scale"] = 1,
@@ -90,14 +90,14 @@
 			["scale"] = 1,
 		},
 		raid = {						-- Raid frames configuration
-			["enable"] = true,			
+			["enable"] = true,
 			["position"] = {"TOPLEFT", "UIParent", "BOTTOM", -156, 177},
-			
+
 			["party"] = false, 								-- show party as 5 men raid group
 			["raid5"] = false, 								-- show raid frame for 5 (or less) men raid group
-			["raid40"] = false, 								-- allow raid frames to change their size if there are more than 30 players in the group
+			["raid40"] = false, 							-- allow raid frames to change their size if there are more than 30 players in the group
 			["raid_menu"] = false,							-- enable/disable right-click menu for raid frames
-			main_tank = { 
+			main_tank = {
 				["enable"] = true,														-- enable Main tank frames
 				["position"] = {"BOTTOMLEFT", "UIParent", "BOTTOMRIGHT", -163, 233},	-- MTs frame position
 				["scale"] = 1.5, 														-- MT size relatively to unit size
@@ -111,11 +111,11 @@
 			["focus_color"] = {.8, .8, .2, .7}, 			-- focus border color
 			["DisableRaidManager"] = true, 					-- disable default compact Raid Manager button
 			["update_time"] = .25, 							-- Enhances update rate for indicators (can be cpu intensive with lower values)
-			debuff = {	
+			debuff = {
 				["size"] = 11, 								-- debuff icon size
-				["timer"] = 5,								-- enable/disable timer for raid debuffs 
-			}, 
-			indicators = { 							
+				["timer"] = 5,								-- enable/disable timer for raid debuffs
+			},
+			indicators = {
 				["enable"] = true,							-- enable/disable raid frames indicators
 				["size"] = 5, 								-- square indicator size
 				["counter_size"] = 11, 						-- bottom right corner counter size
@@ -131,7 +131,7 @@
 				["enable"] = true, 							-- toggle display of tiny power bars on raid frames
 				["size"] = 0.09, 							-- power bar thickness relatively to unit size
 			},
-			healbar = { 								
+			healbar = {
 				["enable"] = true,							-- enable healing prediction bar
 				["healalpha"] = 0.25, 						-- heal prediction bar alpha
 				["healoverflow"] = 1.2, 						-- overhealing display (1 = disabled, may take values higher than 1)
@@ -155,7 +155,7 @@
 		target = {
 			["enable"] = true,
 			["undock"] = false,
-			["position"] = {"CENTER",UIParent,"BOTTOM",10,360},	
+			["position"] = {"CENTER",UIParent,"BOTTOM",10,360},
 			["width"] = 210,
 			["height"] = 17,
 		},
@@ -174,14 +174,14 @@
 		font = "Interface\\Addons\\oUF_mono\\media\\font.ttf",
 		backdrop_texture = "Interface\\Addons\\oUF_mono\\media\\backdrop",
 		backdrop_edge_texture = "Interface\\Addons\\oUF_mono\\media\\backdrop_edge",
-		
+
 		aurafont = "Interface\\Addons\\oUF_mono\\media\\auras.ttf",
 		debuffborder = "Interface\\Addons\\oUF_mono\\media\\iconborder",
 		highlightTex = "Interface\\Buttons\\WHITE8x8",
 	},
   }
-  
-  -- my config 
+
+  -- my config
   if GetUnitName("player") == "Strigoy" or GetUnitName("player") == "Strig" then
 	cfg.oUF.settings.playerauras = "DEBUFFS"
 	cfg.oUF.frames.party.position = {"BOTTOMRIGHT", "oUF_monoPlayerFrame", "TOPLEFT", -50, 70}

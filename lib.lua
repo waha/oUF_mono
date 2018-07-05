@@ -2,7 +2,7 @@
   local cfg = ns.cfg
   local cast = ns.cast
   local oUF = ns.oUF or oUF
-  local lib = CreateFrame("Frame")  
+  local lib = CreateFrame("Frame", nil, UIParent)
 
   -----------------------------
   -- local variables
@@ -26,28 +26,28 @@
     fs:SetShadowColor(0,0,0,1)
 --    fs:SetTextColor(1,1,1)
     return fs
-  end  
+  end
 
   --backdrop table
-  local backdrop_tab = { 
-    bgFile = cfg.oUF.media.backdrop_texture, 
+  local backdrop_tab = {
+    bgFile = cfg.oUF.media.backdrop_texture,
     edgeFile = cfg.oUF.media.backdrop_edge_texture,
-    tile = false, tileSize = 0, edgeSize = 5, 
+    tile = false, tileSize = 0, edgeSize = 5,
     insets = {left = 5, right = 5, top = 5, bottom = 5,},}
-  
+
   --backdrop func
   lib.gen_backdrop = function(f)
     f:SetBackdrop(backdrop_tab);
     f:SetBackdropColor(.1,.1,.1,1)
     f:SetBackdropBorderColor(0,0,0,1)
   end
-  
+
   --status bar filling fix
   local fixStatusbar = function(b)
     b:GetStatusBarTexture():SetHorizTile(false)
     b:GetStatusBarTexture():SetVertTile(false)
   end
-  
+
   --right click menu
   lib.menu = function(self)
 	local unit = self.unit:sub(1, -2)
@@ -63,10 +63,10 @@
 		ToggleDropDownMenu(1, nil, _G[cunit.."FrameDropDown"], "cursor", 0, 0)
 	end
   end
-  
+
   lib.PostUpdateHealth = function(s, u, min, max)
-	if not UnitIsConnected(u) or UnitIsDeadOrGhost(u) then 
-		s:SetValue(0) 
+	if not UnitIsConnected(u) or UnitIsDeadOrGhost(u) then
+		s:SetValue(0)
 		s.bd:SetVertexColor(.4,.4,.4)
 		if s.Spark then s.Spark:Hide() end
 	else
@@ -75,9 +75,9 @@
 			if s.Spark and s.Spark:IsObjectType'Texture' and min < max and min > 1 then
 				s.Spark:SetPoint("CENTER", s, "LEFT", (min / max) * s:GetWidth(), 0)
 				s.Spark:Show()
-			else 
+			else
 				s.Spark:Hide()
-			end 
+			end
 		end
 	end
  	--local val = s:GetValue()
@@ -106,6 +106,7 @@
 		local bar = CreateFrame("StatusBar", nil, f) --separate frame for OnUpdates
 		bar.Updater = CreateFrame("Frame", nil, bar)
 		bar.Updater:Hide()
+		bar:SetFrameStrata("HIGH")
 		bar.Updater:SetScript("OnUpdate", UpdaterOnUpdate)
 		bar:SetScript("OnSizeChanged", OnChanged)
 		bar:SetScript("OnValueChanged", OnChanged)
@@ -113,14 +114,7 @@
 		return bar;
 	end
   end
-  
-  -- worgen male portrait fix
-  lib.PortraitPostUpdate = function(self, unit) 
-	if self:GetModel() and self:GetModel().find and self:GetModel():find("worgenmale") then
-		self:SetCamera(0)
-	end	
-  end
-  
+
   -- threat updater
   local updateThreat = function(self, event, unit)
     if(unit ~= self.unit) then return end
@@ -141,13 +135,13 @@
   lib.gen_hpbar = function(f)
     --statusbar
 	local s
-	if cfg.oUF.settings.ReverseHPbars then 
-		--s = CreateFrame("StatusBar", nil, f) 
+	if cfg.oUF.settings.ReverseHPbars then
+		--s = CreateFrame("StatusBar", nil, f)
 		--s:SetReverseFill(true)
-		s = ReverseBar(f) 
+		s = ReverseBar(f)
 		s:SetAlpha(0.9)
-	else 
-		s = CreateFrame("StatusBar", nil, f) 
+	else
+		s = CreateFrame("StatusBar", nil, f)
 		s:SetAlpha(1)
 	end
     --local s = ReverseBar(f)--CreateFrame("StatusBar", nil, f)--
@@ -157,7 +151,7 @@
     s:SetWidth(f.width)
     s:SetPoint("TOPLEFT",0,0)
     --s:SetAlpha(0.9)
-    s:SetOrientation("HORIZONTAL") 
+    s:SetOrientation("HORIZONTAL")
 	s:SetFrameLevel(6)
     --shadow backdrop
     local h = CreateFrame("Frame", nil, s)
@@ -174,7 +168,7 @@
     b:SetTexture(cfg.oUF.media.statusbar)
     b:SetAllPoints(s)
 	b:SetVertexColor(.8,.5,.5)
- 	if cfg.oUF.settings.ReverseHPbars then 
+ 	if cfg.oUF.settings.ReverseHPbars then
 		--b.multiplier = 0.3
 		--f.Health.bg = b
 		b:SetVertexColor(.15,.15,.15)
@@ -187,11 +181,11 @@
 		bg.t:SetBackdrop({edgeFile = "Interface\\ChatFrame\\ChatFrameBackground", edgeSize = 1,
 							insets = {left = 6, right = -6, top = -6, bottom = 6}})
 		bg.t:SetBackdropColor(0, 0, 0, 0)
-		bg.t:SetBackdropBorderColor(0, 1, 1, 0) 
+		bg.t:SetBackdropBorderColor(0, 1, 1, 0)
 		bg.t.Override = updateThreat
 		f.Threat = bg.t
 	end
-	
+
 	local sp = s:CreateTexture(nil, "OVERLAY")
 	sp:SetTexture[[Interface\CastingBar\UI-CastingBar-Spark]]
 	sp:SetSize(20, f.height*2.5)
@@ -199,10 +193,10 @@
 	sp:SetAlpha(0.5)
 	sp:Hide()
 	s.Spark = sp
-	
+
     f.Health = s
 	f.Health.bd = b
-	s.PostUpdate = lib.PostUpdateHealth  
+	s.PostUpdate = lib.PostUpdateHealth
 
   end
   --3d portrait behind hp bar
@@ -210,7 +204,7 @@
     if not cfg.oUF.settings.Portrait then return end
 	local s = f.Health
 	local p = CreateFrame("PlayerModel", nil, f)
-	if cfg.oUF.settings.ReverseHPbars then 
+	if cfg.oUF.settings.ReverseHPbars then
 		p:SetFrameLevel(s:GetFrameLevel()-1)
 	else
 		p:SetFrameLevel(s:GetFrameLevel()+1)
@@ -219,7 +213,7 @@
     p:SetHeight(f.height-2)
     p:SetPoint("TOP", s, "TOP", 0, -1)
 	p:SetAlpha(.25)
-	p.PostUpdate = lib.PortraitPostUpdate	
+	p.PostUpdate = lib.PortraitPostUpdate
     f.Portrait = p
   end
   --gen hp strings func
@@ -229,7 +223,7 @@
     h:SetAllPoints(f.Health)
     h:SetFrameLevel(15)
     local valsize
-    if f.mystyle == "arenatarget" or f.mystyle == "partypet" then valsize = 11 else valsize = 13 end 
+    if f.mystyle == "arenatarget" or f.mystyle == "partypet" then valsize = 11 else valsize = 13 end
     local name = lib.gen_fontstring(h, cfg.oUF.media.font, 13, "THINOUTLINE")
     local hpval = lib.gen_fontstring(h, cfg.oUF.media.font, valsize, "THINOUTLINE")
     if f.mystyle == "target" or f.mystyle == "tot" then
@@ -438,7 +432,7 @@
 	s.PostChannelStop = cast.PostChannelStop
 	s.PostCastFailed = cast.PostCastFailed
 	s.PostCastInterrupted = cast.PostCastFailed
-	
+
     f.Castbar = s
     f.Castbar.Text = txt
     f.Castbar.Time = t
@@ -448,7 +442,7 @@
   --gen Mirror Cast Bar
   --/run local t = _G["MirrorTimer1StatusBar"]:GetValue() print(t)
   lib.gen_mirrorcb = function(f)
-    for _, bar in pairs({'MirrorTimer1','MirrorTimer2','MirrorTimer3',}) do   
+    for _, bar in pairs({'MirrorTimer1','MirrorTimer2','MirrorTimer3',}) do
       for i, region in pairs({_G[bar]:GetRegions()}) do
         if (region.GetTexture and region:GetTexture() == 'SolidTexture') then
           region:Hide()
@@ -475,7 +469,7 @@
       lib.gen_backdrop(h)
     end
   end
-  
+
 ------ [Auras, all of them!]
 -- Creating our own timers with blackjack and hookers!
   lib.FormatTime = function(s)
@@ -509,7 +503,7 @@
           local time = lib.FormatTime(self.timeLeft)
           self.remaining:SetText(time)
 		  -- (dirty fix) we don't need timers for the gap 'icon'
-		  --if self.icon:GetTexture() == nil then self.remaining:SetText("") end 
+		  --if self.icon:GetTexture() == nil then self.remaining:SetText("") end
           if self.timeLeft < 5 then
             self.remaining:SetTextColor(1, .3, .2)
           else
@@ -543,17 +537,17 @@
 --[[	if unitCaster ~= 'player' and unitCaster ~= 'vehicle' and not UnitIsFriend('player', unit) and icon.debuff then
 		icon.icon:SetDesaturated(true)
 	  end
-	  if(unit == "target") then	
+	  if(unit == "target") then
 		if (unitCaster == "player" or unitCaster == "vehicle") then
-			icon.icon:SetDesaturated(false)    
+			icon.icon:SetDesaturated(false)
 		elseif(not UnitPlayerControlled(unit)) then -- If Unit is Player Controlled don"t desaturate debuffs
-			icon.icon:SetDesaturated(true)  
+			icon.icon:SetDesaturated(true)
 		end
 	end
 ]]
 	-- setting up aura timers
     if duration and duration > 0 and cfg.oUF.settings.auratimers.enable then
-	  icon.remaining:Show() 
+	  icon.remaining:Show()
     else
       icon.remaining:Hide()
     end
@@ -562,7 +556,7 @@
       icon.timeLeft = expirationTime
       icon.first = true
       icon:SetScript("OnUpdate", lib.CreateAuraTimer)
-    end	
+    end
 
 	-- desaturate icons
  	if not UnitIsFriend("player", unit) and not playerUnits[icon.owner] then
@@ -577,7 +571,7 @@
 		end
 	else
 		icon.icon:SetDesaturated(false)
-	end 
+	end
 	-- apply color to our icon border
 	--icon.border:SetVertexColor(color.r, color.g, color.b)
 	-- sometimes the gap icon fucking eats border and backdrop of our actual icons, so we fix it here
@@ -626,15 +620,15 @@
 	overlay:Hide()
 	overlay.Show = overlay.Hide
 	overlay.Hide = overlayHide
-	
+
 	--another helper frame for our fontstring to overlap the cd frame
  	--button.timer = CreateFrame("Frame", nil, button)
 	--button.timer:SetAllPoints(button)
-	--button.timer:SetFrameLevel(button.cd:GetFrameLevel()+3) 
+	--button.timer:SetFrameLevel(button.cd:GetFrameLevel()+3)
     -- button.overlay:SetTexture(cfg.oUF.media.auratex)
     -- button.overlay:SetPoint("TOPLEFT", button, "TOPLEFT", -1, 1)
     -- button.overlay:SetPoint("BOTTOMRIGHT", button, "BOTTOMRIGHT", 1, -1)
-    -- button.overlay:SetTexCoord(0.04, 0.96, 0.04, 0.96) 
+    -- button.overlay:SetTexCoord(0.04, 0.96, 0.04, 0.96)
 	-- button.overlay.Hide = function(self) self:SetVertexColor(0, 0, 0) end
   end
   -- update 'empty' icon (gap between buffs and debuffs)
@@ -653,7 +647,7 @@
   lib.createAuras = function(f)
     local a = CreateFrame('Frame', nil, f)
     a['growth-x'] = 'RIGHT'
-    a['growth-y'] = 'UP' 
+    a['growth-y'] = 'UP'
     a.initialAnchor = 'BOTTOMLEFT'
     a.gap = true
 	-- a['spacing-x'] = a.spacing
@@ -664,7 +658,7 @@
 	a.showBuffType = true
 	a:SetPoint('BOTTOMLEFT', f, 'TOPLEFT', 1.5, 4)
 	a:SetSize((a.size+a.spacing)*8, (a.size+a.spacing)*2)
-	a.numBuffs = 15 
+	a.numBuffs = 15
 	a.numDebuffs = 15
 	if f.mystyle=="focus" then
 	--a:SetScale((1-f:GetScale())+1)
@@ -676,7 +670,7 @@
 	  a:SetPoint('TOPLEFT', f.Power, 'BOTTOMLEFT', 0.5, -5)
       a:SetHeight((a.size+a.spacing)*2)
       a:SetWidth((a.size+a.spacing)*5)
-	  a['growth-y'] = 'DOWN' 
+	  a['growth-y'] = 'DOWN'
       a.numBuffs = 5
       a.numDebuffs = 4
 	  --a.showDebuffType = false
@@ -720,7 +714,7 @@
       b.num = 8
 	elseif f.mystyle=="player" then
 	  b['growth-x'] = 'LEFT'
-      b['growth-y'] = 'DOWN' 
+      b['growth-y'] = 'DOWN'
       b.initialAnchor = 'TOPRIGHT'
 	  b.num = 15
 	  b.size = 23
@@ -765,7 +759,7 @@
       d.num = 4
 	  d.size = 20
 	  d:SetPoint("TOPRIGHT", f, "TOPLEFT", -d.spacing, -2)
-      d:SetWidth((d.size+d.spacing)*4) 
+      d:SetWidth((d.size+d.spacing)*4)
     elseif f.mystyle=='party' then
       d:SetPoint("TOPRIGHT", f, "TOPLEFT", -d.spacing, -2)
 	  d.num = 8
@@ -774,7 +768,7 @@
       d:SetWidth((d.size+d.spacing)*4)
 	elseif f.mystyle=="player" and cfg.oUF.settings.playerauras=="DEBUFFS" then
 	  d['growth-x'] = 'LEFT'
-      d['growth-y'] = 'DOWN' 
+      d['growth-y'] = 'DOWN'
       d.initialAnchor = 'TOPRIGHT'
 	  d.num = 15
 	  d.size = 23
@@ -818,7 +812,18 @@
         f.Runes[i] = r
       end
   end
-  
+
+  -- Soul Fragments bar
+  lib.gen_SoulFragments = function(f)
+    if class ~= "DEMONHUNTER" then return end
+    local h = CreateFrame("Frame", nil, f)
+    h:SetAllPoints(f.Health)
+    h:SetFrameLevel(10)
+    local cp = lib.gen_fontstring(h, cfg.oUF.media.font, 30, "THINOUTLINE")
+    cp:SetPoint("CENTER", f.Health, "CENTER",0,3)
+    f:Tag(cp, '[mono:sf]')
+  end
+
   -- gen ClassIcons (priests, monks, paladins)
   -- need to update the bar width depending on current max value of class specific power
   local PostUpdateClassPowerIcons = function(element, power, maxPower, maxPowerChanged, event)
@@ -826,9 +831,11 @@
 	if event == 'ClassPowerDisable' then
 		return
 	end
+	if not maxPower == 0 then
     for i = 1, maxPower do
         element[i]:SetSize((f.width*0.7 - 2 * (maxPower - 1)) / maxPower, f.height/3)
     end
+  end
   end
 
   lib.gen_ClassIcons = function(f)
@@ -840,7 +847,7 @@
 		--local c = 5
 		for i = 1, 5 do
 			ci[i] = CreateFrame("StatusBar", f:GetName().."_ClassBar"..i, f)
-			ci[i]:SetSize(ci:GetWidth()/5-2, ci:GetHeight()-1) 
+			ci[i]:SetSize(ci:GetWidth()/5-2, ci:GetHeight()-1)
 			ci[i]:SetStatusBarTexture(cfg.oUF.media.statusbar)
 			--ci[i]:SetStatusBarColor(.95,.88,.48)
 			ci[i]:SetFrameLevel(11)
@@ -849,7 +856,7 @@
 			h:SetFrameLevel(10)
 			h:SetPoint("TOPLEFT",-4,3)
 			h:SetPoint("BOTTOMRIGHT",4,-3)
-			lib.gen_backdrop(h) 
+			lib.gen_backdrop(h)
    			if (i == 1) then
 				ci[i]:SetPoint('LEFT', ci, 'LEFT', 1, 0)
 			else
@@ -860,18 +867,18 @@
 	f.ClassIcons = ci
 	f.ClassIcons.PostUpdate = PostUpdateClassPowerIcons
   end
-  
+
   -- gen bar for warlocks' spec-specific powers
   lib.gen_WarlockSpecBar = function(f)
 	if class ~= "WARLOCK" then return end
-	
+
 	local wsb = CreateFrame("Frame", "WarlockSpecBars", f)
 	wsb:SetPoint('CENTER', f.Health, 'TOP', 0, 1)
 	if cfg.oUF.settings.ClassBars.undock then wsb:ClearAllPoints() wsb:SetPoint(unpack(cfg.oUF.settings.ClassBars.position)) end
 	wsb:SetSize(f.width*0.7, f.height/3)
 	wsb:SetFrameLevel(10)
-	
-	for i = 1, 4 do
+
+	for i = 1, 5 do
 		wsb[i] = CreateFrame("StatusBar", "WarlockSpecBars"..i, wsb)
 		wsb[i]:SetHeight(wsb:GetHeight()-1)
 		wsb[i]:SetStatusBarTexture(cfg.oUF.media.statusbar)
@@ -882,23 +889,23 @@
 		wsb[i].bg:SetPoint("TOPLEFT",wsb[i],"TOPLEFT",0,0)
 		wsb[i].bg:SetPoint("BOTTOMRIGHT",wsb[i],"BOTTOMRIGHT",0,0)
 		wsb[i].bg.multiplier = .3
-		
+
 		local h = CreateFrame("Frame",nil,wsb[i])
 		h:SetFrameLevel(10)
 		h:SetPoint("TOPLEFT",-4,3)
 		h:SetPoint("BOTTOMRIGHT",4,-3)
 		lib.gen_backdrop(h)
-		
+
 		if i == 1 then
 			wsb[i]:SetPoint("LEFT", wsb, "LEFT", 1, 0)
 		else
 			wsb[i]:SetPoint("LEFT", wsb[i-1], "RIGHT", 2, 0)
 		end
 	end
-	
+
 	f.WarlockSpecBars = wsb
   end
-  
+
   --gen eclipse bar
   lib.gen_EclipseBar = function(f)
 	if class ~= "DRUID" then return end
@@ -915,27 +922,27 @@
 
 	local lb = CreateFrame('StatusBar', nil, eb)
 	lb:SetPoint('LEFT', eb, 'LEFT', 0, 0)
-	lb:SetSize(eb:GetWidth(), eb:GetHeight())
+	lb:SetSize(eb:GetWidth()/2, eb:GetHeight())
 	lb:SetStatusBarTexture(cfg.oUF.media.statusbar)
 	lb:SetStatusBarColor(0.27, 0.47, 0.74)
 	lb:SetFrameLevel(11)
 
 	local sb = CreateFrame('StatusBar', nil, eb)
 	sb:SetPoint('LEFT', lb:GetStatusBarTexture(), 'RIGHT', 0, 0)
-	sb:SetSize(eb:GetWidth(), eb:GetHeight())
+	sb:SetSize(eb:GetWidth()/2, eb:GetHeight())
 	sb:SetStatusBarTexture(cfg.oUF.media.statusbar)
 	sb:SetStatusBarColor(0.87, 0.67, 0.3)
 	sb:SetFrameLevel(11)
-	
+
 	eb.SolarBar = sb
 	eb.LunarBar = lb
 	f.EclipseBar = eb
 	f.EclipseBar.PostUnitAura = eclipseBarBuff
-    
+
 	local ebInd = lib.gen_fontstring(sb, cfg.oUF.media.font, 11)
 	ebInd:SetPoint('CENTER', eb, 'CENTER', 0,0)
 	ebInd:SetShadowOffset(1.25, -1.25)
-	
+
 	local SetEclipseIndicator = function()
 		local ePowerMax = UnitPowerMax('player', SPELL_POWER_ECLIPSE)
 		local ePower = math.abs(UnitPower('player', SPELL_POWER_ECLIPSE)/ePowerMax*100)
@@ -956,20 +963,20 @@
 	end
 	f.EclipseBar.PostUpdateVisibility = function(unit)
 		SetEclipseIndicator()
-	end 
-  end  
-  
+	end
+  end
+
   --gen TotemBar for shamans
-  lib.gen_TotemBar = function(f) 
+  lib.gen_TotemBar = function(f)
 	if class ~= "SHAMAN" then return end
  	local width = (f.width + 4) / 4 - 4
 	local height = f.height/3
 	local tb = CreateFrame("Frame", nil, f)
 	tb.colors = {
 		[1] = {.88,.43,.20},
-		[2] = {.43,.65,.23},	
+		[2] = {.43,.65,.23},
 		[3] = {.39,.58,.80},
-		[4] = {.82,.68,.94},	
+		[4] = {.82,.68,.94},
 	}
 	tb:SetPoint('CENTER', f.Health, 'TOP', 0, 1)
 	if cfg.oUF.settings.ClassBars.undock then tb:ClearAllPoints() tb:SetPoint(unpack(cfg.oUF.settings.ClassBars.position)) end
@@ -989,14 +996,14 @@
 		t:SetFrameLevel(11)
 		t:SetStatusBarTexture(cfg.oUF.media.statusbar)
 		t:SetMinMaxValues(0, 1)
-		
+
 		--backdrop shadow
 		local h = CreateFrame("Frame",nil,t)
 		h:SetFrameLevel(tb:GetFrameLevel())
 		h:SetPoint("TOPLEFT",-4,3)
 		h:SetPoint("BOTTOMRIGHT",4,-3)
 		lib.gen_backdrop(h)
-		
+
  		--helper frame for text
 		local ht = CreateFrame("Frame",nil,t)
 		ht:SetFrameLevel(12)
@@ -1004,16 +1011,16 @@
  		local time = lib.gen_fontstring(ht, cfg.oUF.media.font, 11, "THINOUTLINE")
 		time:SetPoint("BOTTOMRIGHT",t,"TOPRIGHT", 0, -5)
 		time:SetFontObject"GameFontNormal"
-		t.Time = time 
+		t.Time = time
 		--abbreviated totem names
 		--local text = lib.gen_fontstring(ht, cfg.oUF.media.font, 11, "THINOUTLINE")
 		--text:SetPoint("BOTTOMLEFT", t, "TOPLEFT", 0, -1)
 		--t.Name = text
-		
+
 		-- statusbar bg
 		t.bg = t:CreateTexture(nil, "BACKGROUND")
 		t.bg:SetAllPoints()
-		t.bg:SetTexture(1, 1, 1)
+		t.bg:SetColorTexture(1, 1, 1)
 		t.bg.multiplier = 0.2
 
 		tb[i] = t
@@ -1021,7 +1028,7 @@
 	end
 	f.TotemBar = tb
   end
-  
+
   --gen class specific power display
   lib.gen_specificpower = function(f, unit)
     local h = CreateFrame("Frame", nil, f)
@@ -1029,9 +1036,9 @@
     h:SetFrameLevel(10)
 	if f.mystyle == "party" or f.mystyle == "player" then
 		local es = lib.gen_fontstring(h, cfg.oUF.media.font, 14, "THINOUTLINE")
-		es:SetPoint("CENTER", f.Power, "BOTTOMRIGHT",0,0)	
+		es:SetPoint("CENTER", f.Power, "BOTTOMRIGHT",0,0)
 		if class == "SHAMAN" then
-			f:Tag(es, '[raid:earth]')
+			-- f:Tag(es, '[raid:earth]')
 		elseif class == "DRUID" then
 			f:Tag(es, '[raid:lb]')
 		elseif class == "PRIEST" then
@@ -1044,7 +1051,7 @@
 		if class == "DRUID" then
 			f:Tag(sp, '[mono:wm1][mono:wm2][mono:wm3]')
 		elseif class == "SHAMAN" then
-			f:Tag(sp, '[mono:ws][mono:ls]')
+			f:Tag(sp, '[mono:ls]')
 		end
 	end
   end
@@ -1133,7 +1140,7 @@
 	  if self.timeleft <= 0 then
 		self.icon:SetTexture('')
 		self.text:SetText('')
-	  end	
+	  end
 	  self.text:SetFormattedText('%.1f', self.timeleft)
 	end
   end
@@ -1174,7 +1181,7 @@
   end
   --gen fake target bars
   lib.gen_faketarget = function(f)
-	local fhp = CreateFrame("StatusBar","FakeHealthBar",UIParent) 
+	local fhp = CreateFrame("StatusBar","FakeHealthBar",UIParent)
 	fhp:SetAlpha(.4)
 	fhp:SetSize(f.width,f.height)
 	fhp:SetPoint("TOPLEFT",oUF_monoTargetFrame,"TOPLEFT",0,0)
@@ -1185,7 +1192,7 @@
 	h:SetPoint("TOPLEFT",-3.5,5)
 	h:SetPoint("BOTTOMRIGHT",3.5,-5)
 	lib.gen_backdrop(h)
-	
+
 	local fpp = CreateFrame("StatusBar",nil,fhp)
 	fpp:SetSize(fhp:GetWidth(), fhp:GetHeight()/3)
 	fpp:SetPoint("TOP",FakeHealthBar,"BOTTOM",0,-2)
@@ -1244,7 +1251,7 @@
 	apb:SetStatusBarTexture(cfg.oUF.media.statusbar)
 	apb:GetStatusBarTexture():SetHorizTile(false)
 	apb:SetStatusBarColor(1, 0, 0)
-	
+
 	if (f.mystyle == "player" or f.mystyle == "pet") and cfg.oUF.settings.AltPowerBar.undock then
 		apb:SetSize(227, 14)
 		apb:SetPoint(unpack(cfg.oUF.settings.AltPowerBar.position))
@@ -1254,7 +1261,7 @@
 	apb.bg:SetAllPoints(apb)
 	apb.bg:SetTexture(cfg.oUF.media.statusbar)
 	apb.bg:SetVertexColor(.18, .18, .18, 1)
-	
+
 	apb.b = CreateFrame("Frame", nil, apb)
 	apb.b:SetFrameLevel(f.Health:GetFrameLevel() + 1)
 	apb.b:SetPoint("TOPLEFT", apb, "TOPLEFT", -4, 4)
@@ -1262,13 +1269,13 @@
 	apb.b:SetBackdrop(backdrop_tab)
 	apb.b:SetBackdropColor(0, 0, 0, 0)
 	apb.b:SetBackdropBorderColor(0,0,0,1)
-	
+
 	apb.v = lib.gen_fontstring(apb, cfg.oUF.media.font, 10, "THINOUTLINE")
 	apb.v:SetPoint("CENTER", apb, "CENTER", 0, 0)
 	f:Tag(apb.v, '[mono:altpower]')
-	
-	f.AltPowerBar = apb
-	f.AltPowerBar.PostUpdate = AltPowerPostUpdate
+
+	f.AlternativePower = apb
+	f.AlternativePower.PostUpdate = AltPowerPostUpdate
   end
   --hand the lib to the namespace for further usage
   ns.lib = lib

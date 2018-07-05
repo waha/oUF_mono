@@ -1,4 +1,4 @@
-﻿-- /dump GetMouseFocus() -- from dungeon journal
+-- /dump GetMouseFocus() -- from dungeon journal
 -- /dump EJ_GetInstanceInfo(ID)
 
 local L = {
@@ -31,7 +31,6 @@ raid_debuffs = {
 		[GetSpellInfo(33786)] = 10, -- Cyclone 
 		[GetSpellInfo(118)] = 7, -- Polymorph 
 		[GetSpellInfo(339)] = 7, -- Entangling Roots 
-		[GetSpellInfo(1499)] = 7, -- Freezing Trap 
 		[GetSpellInfo(25809)] = 6, -- Crippling Poison 
 		[GetSpellInfo(1715)] = 5, -- Hamstring 
 		[GetSpellInfo(5782)] = 3, -- Fear 

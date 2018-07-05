@@ -1,21 +1,20 @@
 local addon, ns = ...
 local cfg = ns.cfg
-local cast = CreateFrame("Frame")  
+local cast = CreateFrame("Frame")
   -- special thanks to Allez for coming up with this solution
 local channelingTicks = {
 	-- warlock
-	[GetSpellInfo(689)] = 3, -- "Drain Life"
+	[GetSpellInfo(234153)] = 3, -- "Drain Life"
 	[GetSpellInfo(5740)] = 4, -- "Rain of Fire"
 	-- druid
 	[GetSpellInfo(740)] = 4, -- "Tranquility"
-	[GetSpellInfo(16914)] = 10, -- "Hurricane"
 	-- priest
 	[GetSpellInfo(15407)] = 3, -- "Mind Flay"
-	[GetSpellInfo(48045)] = 5, -- "Mind Sear"
+	[GetSpellInfo(234702)] = 5, -- "Mind Sear"
 	[GetSpellInfo(47540)] = 2, -- "Penance"
 	-- mage
 	[GetSpellInfo(5143)] = 5, -- "Arcane Missiles"
-	[GetSpellInfo(10)] = 5, -- "Blizzard"
+	[GetSpellInfo(190356)] = 5, -- "Blizzard"
 	[GetSpellInfo(12051)] = 4, -- "Evocation"
 }
 local ticks = {}
@@ -90,12 +89,12 @@ cast.PostCastStart = function(self, unit, name, rank, text)
 	self:SetAlpha(1.0)
 	self.Spark:Show()
 	self:SetStatusBarColor(unpack(self.casting and self.CastingColor or self.ChannelingColor))
-	if unit == 'vehicle' then 
+	if unit == 'vehicle' then
 		self.SafeZone:Hide()
 		self.Lag:Hide()
 	elseif unit == 'player' then
 		if GetNetStats() == 0 then return end -- test
-		local sz = self.SafeZone 
+		local sz = self.SafeZone
 		if not sz then return end -- fix for swapped vehicles' cast bars when channeling
 		--if not sz.sendTime then sz.sendTime = GetTime() end
 		sz.timeDiff = 0
@@ -123,7 +122,7 @@ cast.PostCastStart = function(self, unit, name, rank, text)
 end
 
 cast.PostCastStop = function(self, unit, name, rank, castid)
-	if not self.fadeOut then 
+	if not self.fadeOut then
 		self:SetStatusBarColor(unpack(self.CompleteColor))
 		self.fadeOut = true
 	end

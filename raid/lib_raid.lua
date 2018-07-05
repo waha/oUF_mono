@@ -2,13 +2,13 @@
   local cfg = ns.cfg
   local oUF = ns.oUF or oUF
   local lib = ns.lib
-  local lib_raid = CreateFrame("Frame")  
-    
+  local lib_raid = CreateFrame("Frame")
+
   -----------------------------
   -- local variables
   -----------------------------
   if not cfg.oUF.frames.raid.position then cfg.oUF.frames.raid.position = cfg.pos end -- compatability with old config files
-  
+
   local _, class = UnitClass("player")
   local backdrop = {
       bgFile = cfg.oUF.media.highlightTex,
@@ -25,7 +25,7 @@
       ['RAGE'] = {.69,.31,.31},
       ['FOCUS'] = {.71,.43,.27},
       ['ENERGY'] = {.65,.63,.35},
-      ['RUNIC_POWER'] = {0,.8,.9},}, 
+      ['RUNIC_POWER'] = {0,.8,.9},},
       {__index = oUF.colors.power}),},
       {__index = oUF.colors})
   -----------------------------
@@ -68,7 +68,7 @@
     end
     threat:Show()
   end
-  
+
   local PostUpdateHealth = function(s, unit)
     local r, g, b, t
     if(UnitIsPlayer(unit)) then
@@ -89,8 +89,8 @@
       end
       s:SetStatusBarColor(0, 0, 0, .8)
     end
-  end  
-  
+  end
+
   local PostUpdatePower = function(power, unit)
     local _, ptype = UnitPowerType(unit)
     local self = power:GetParent()
@@ -107,11 +107,11 @@
     else
       if(cfg.oUF.frames.raid.orientation == "VERTICAL")then
         power:SetPoint"TOP"
-        power:SetWidth(0.0000001) 
+        power:SetWidth(0.0000001)
         self.Health:SetWidth(cfg.oUF.frames.raid.width)
       else
         power:SetPoint"LEFT"
-        power:SetHeight(0.0000001) 
+        power:SetHeight(0.0000001)
         self.Health:SetHeight(cfg.oUF.frames.raid.height)
       end
     end
@@ -145,7 +145,7 @@
     fixStatusbar(s)
     s:SetHeight(f.height)
     s:SetWidth(f.width)
-    s:SetOrientation(cfg.oUF.frames.raid.orientation) 
+    s:SetOrientation(cfg.oUF.frames.raid.orientation)
     s:SetPoint"TOP"
     s:SetPoint"LEFT"
     if cfg.oUF.frames.raid.orientation == "VERTICAL" then
@@ -160,7 +160,7 @@
     f.Health.bg = b
     s.PostUpdate = PostUpdateHealth
   end
-  
+
   lib_raid.gen_hpstrings = function(f, unit)
     local h = CreateFrame("Frame", nil, f)
     h:SetAllPoints(f.Health)
@@ -180,7 +180,7 @@
       f:Tag(hpval, '[mono:hpraid]')
     end
   end
-  
+
   lib_raid.gen_ppbar = function(f)
     if cfg.oUF.frames.raid.powerbar.enable then
       local pp = CreateFrame"StatusBar"
@@ -199,7 +199,7 @@
       f.Power = pp
     end
   end
-  
+
   lib_raid.gen_elements = function(f)
     -- Target tex
     local tB = CreateFrame("Frame", nil, f)
@@ -209,7 +209,7 @@
     tB:SetFrameLevel(0)
     tB:Hide()
     f.TargetBorder = tB
-    
+
     -- Focus tex
     local fB = CreateFrame("Frame", nil, f)
     fB:SetPoint("TOPLEFT", f, "TOPLEFT")
@@ -218,7 +218,7 @@
     fB:SetFrameLevel(0)
     fB:Hide()
     f.FocusHighlight = fB
-    
+
     -- Debuffs
     local debuffs = CreateFrame("Frame", nil, f)
     debuffs:SetWidth(cfg.oUF.frames.raid.debuff.size) debuffs:SetHeight(cfg.oUF.frames.raid.debuff.size)
@@ -226,7 +226,7 @@
     debuffs.size = cfg.oUF.frames.raid.debuff.size
     --debuffs.CustomFilter = CustomFilter
     f.raidDebuffs = debuffs
-    
+
     -- Threat
     local t = CreateFrame("Frame", nil, f)
     t:SetPoint("TOPLEFT", f, "TOPLEFT", -4, 4)
@@ -237,7 +237,7 @@
     t:SetBackdropBorderColor(0, 0, 0, 1)
     t.Override = updateThreat
     f.Threat = t
-	
+
     -- Leader/Assistant/ML Icons
     if cfg.oUF.frames.raid.icons.leader then
       local li = f.Health:CreateTexture(nil, "OVERLAY")
@@ -246,21 +246,21 @@
       li:SetWidth(cfg.oUF.frames.raid.icons.size)
       li:SetAlpha(0.75)
       f.Leader = li
-      
+
       local ai = f.Health:CreateTexture(nil, "OVERLAY")
       ai:SetPoint("TOPLEFT", f, 0, 6)
       ai:SetHeight(cfg.oUF.frames.raid.icons.size)
       ai:SetWidth(cfg.oUF.frames.raid.icons.size)
       ai:SetAlpha(0.75)
       f.Assistant = ai
-      
+
       local ml = f.Health:CreateTexture(nil, 'OVERLAY')
       ml:SetHeight(cfg.oUF.frames.raid.icons.size)
       ml:SetWidth(cfg.oUF.frames.raid.icons.size)
       ml:SetPoint('LEFT', f.Leader, 'RIGHT')
       f.MasterLooter = ml
     end
-    
+
     -- Raid Icon
     if cfg.oUF.frames.raid.icons.raid_mark then
       local ri = f.Health:CreateTexture(nil, "OVERLAY")
@@ -269,7 +269,7 @@
       ri:SetWidth(cfg.oUF.frames.raid.icons.size)
       f.RaidIcon = ri
     end
-    
+
     -- ReadyCheck
     if cfg.oUF.frames.raid.icons.ready_check then
 	  local rci = f.Health:CreateTexture(nil, "OVERLAY")
@@ -289,12 +289,13 @@
 		lfdi:SetShadowOffset(1.25, -1.25)
 		f:Tag(lfdi, '[mono:LFD]')
     end
-    
+
     -- Enable Indicators
     if cfg.oUF.frames.raid.indicators.enable then
       f.Indicators = true
     end
-	
+
+
 	-- Healing prediction
 	local function heal_bar(self, ...)
 		local b = CreateFrame('StatusBar', nil, f.Health)
@@ -311,20 +312,28 @@
 		local mhpb = heal_bar(f, .4, .8, 0, .5)
 		local ohpb = heal_bar(f, 0, .4, 0, .5)
 		local ahpb = heal_bar(f, .2, 1, 1, .7)
-		f.HealPrediction = { myBar = mhpb, otherBar = ohpb, absorbBar = ahpb, maxOverflow = cfg.oUF.frames.raid.healbar.healoverflow }
+		f.HealthPrediction = { myBar = mhpb, otherBar = ohpb, absorbBar = ahpb, maxOverflow = cfg.oUF.frames.raid.healbar.healoverflow }
 	end
-	
-	local h = CreateFrame"Frame" h:SetParent(f.Health) h:SetAllPoints(f.Health) h:SetFrameLevel(20)
-	if cfg.oUF.frames.raid.healbar.healtext then
+
+	-- Health bar
+    local h = CreateFrame("Frame", nil, f.Health)
+    h:SetAllPoints(f.Health)
+    h:SetFrameLevel(20)
+
+    if cfg.oUF.frames.raid.healbar.healtext then
 	  local ht = lib.gen_fontstring(h, cfg.oUF.media.font, cfg.oUF.frames.raid.font_size-2)
-	  ht:SetPoint("CENTER", f.Health, "RIGHT",0,1)
+	  ht:SetPoint("CENTER", f.Health, "RIGHT", 0,1)
 	  ht:SetShadowOffset(1.25, -1.25)
 	  ht:SetJustifyH("LEFT")
 	  f:Tag(ht, '[mono:heal]')
 	end
-	--absorbs
-	local a = CreateFrame"Frame" a:SetParent(f.Health) a:SetAllPoints(f.Health) a:SetFrameLevel(20)
-	if cfg.oUF.frames.raid.absorbtext then
+
+    -- Absorbs
+	local a = CreateFrame("Frame", nil, f.Health)
+    a:SetAllPoints(f.Health)
+    a:SetFrameLevel(20)
+
+    if cfg.oUF.frames.raid.absorbtext then
 	  local at = lib.gen_fontstring(a, cfg.oUF.media.font, cfg.oUF.frames.raid.font_size-2)
 	  at:SetPoint("CENTER", f.Health, "RIGHT",0,1)
 	  at:SetShadowOffset(1.25, -1.25)
@@ -332,13 +341,13 @@
 	  f:Tag(at, '[mono:absorb]')
 	end
   end
-  
+
   lib_raid.upd_elements = function(f)
     f:RegisterEvent('PLAYER_FOCUS_CHANGED', FocusTarget)
     f:RegisterEvent('RAID_ROSTER_UPDATE', FocusTarget)
     f:RegisterEvent('PLAYER_TARGET_CHANGED', ChangedTarget)
     f:RegisterEvent('RAID_ROSTER_UPDATE', ChangedTarget)
   end
-  
+
   --hand the lib to the namespace for further usage
   ns.lib_raid = lib_raid

@@ -18,8 +18,6 @@ local L = {
   ["Regrowth"] = GetSpellInfo(8936),
   ["Wild Growth"] = GetSpellInfo(48438),
   ["Mark of the Wild"] = GetSpellInfo(1126), -- bok/legacy
-	--dk
-  ["Horn of Winter"] = GetSpellInfo(57330),
 	--warrior
   ["Battle Shout"] = GetSpellInfo(6673),
   ["Commanding Shout"] = GetSpellInfo(469),
@@ -50,6 +48,8 @@ local L = {
 	--mage
   ["Dalaran Brilliance"] = GetSpellInfo(61316),
   ["Arcane Brilliance"] = GetSpellInfo(1459),
+  --demon hunter
+  ["Soul Fragments"] = GetSpellInfo(203981),
 }
 local x = "M"
 
@@ -84,7 +84,22 @@ local function CalcDebuff(uid, debuff) -- to fill some information gaps of UnitD
 end
 
 -----------------[[ GENERAL TAGS ]]-----------------
-oUF.Tags.Methods['raid:aggro'] = function(u) 
+oUF.Tags.Methods['raid:wrack'] = function(u) -- Sinestra's specific debuff
+	local name,_,_,_,dur,_,remaining = CalcDebuff(u,92956) -- 57724 debug
+	if not (name and remaining) then return end
+	if remaining > 14 then -- FOAD
+		return "|cffFF0000"..x.."|r"
+	elseif remaining > 10 then -- criticall! dispel now!
+		return "|cffFFCC00"..x.."|r"
+	elseif remaining > 8 then -- start thinking about dispel!
+		return "|cff00FF00"..x.."|r"
+	else
+		return "|cffB1C4B9"..x.."|r"
+	end
+end
+oUF.Tags.Events['raid:wrack'] = "UNIT_AURA"
+
+oUF.Tags.Methods['raid:aggro'] = function(u)
 	local s = UnitThreatSituation(u) if s == 2 or s == 3 then return "|cffFF0000"..x.."|r" end end
 oUF.Tags.Events['raid:aggro'] = "UNIT_THREAT_SITUATION_UPDATE"
 
@@ -107,7 +122,7 @@ oUF.Tags.Events['raid:rnw'] = "UNIT_AURA"
 -- rnwtime
 oUF.Tags.Methods['raid:rnwTime'] = function(u)
   local name, _,_,_,_,_, expirationTime, fromwho,_ = UnitAura(u, L["Renew"])
-  if (fromwho == "player") then return getTime(expirationTime) end 
+  if (fromwho == "player") then return getTime(expirationTime) end
 end
 oUF.Tags.Events['raid:rnwTime'] = "UNIT_AURA"
 oUF.Tags.Methods['raid:pws'] = function(u) if UnitAura(u, L["Power Word: Shield"]) then return "|cff33FF33"..x.."|r" end end
@@ -127,7 +142,7 @@ end
 oUF.Tags.Events['raid:wsTime'] = "UNIT_AURA"
 
 --druid
-oUF.Tags.Methods['raid:rejuv'] = function(u) 
+oUF.Tags.Methods['raid:rejuv'] = function(u)
   local name, _,_,_,_,_,_, fromwho,_ = UnitAura(u, L["Rejuvenation"])
   if not (fromwho == "player") then return end
   if UnitAura(u, L["Rejuvenation"]) then return "|cff00FEBF"..x.."|r" end end
@@ -135,7 +150,7 @@ oUF.Tags.Events['raid:rejuv'] = "UNIT_AURA"
 -- rejuvtime
 oUF.Tags.Methods['raid:rejuvTime'] = function(u)
   local name, _,_,_,_,_, expirationTime, fromwho,_ = UnitAura(u, L["Rejuvenation"])
-  if (fromwho == "player") then return getTime(expirationTime) end 
+  if (fromwho == "player") then return getTime(expirationTime) end
 end
 oUF.Tags.Events['raid:rejuvTime'] = "UNIT_AURA"
 oUF.Tags.Methods['raid:regrow'] = function(u) if UnitAura(u, L["Regrowth"]) then return "|cff00FF10"..x.."|r" end end
@@ -157,9 +172,9 @@ oUF.Tags.Events['raid:SW'] = "UNIT_AURA"
 oUF.Tags.Methods['raid:tricks'] = function(u) if UnitAura(u, L["Tricks of the Trade"]) then return "|cff33FF33"..x.."|r" end end
 oUF.Tags.Events['raid:tricks'] = "UNIT_AURA"
 
---deathknight
-oUF.Tags.Methods['raid:how'] = function(u) if UnitAura(u, L["Horn of Winter"]) or UnitAura(u, L["Battle Shout"]) then return "|cffffff10"..x.."|r" end end
-oUF.Tags.Events['raid:how'] = "UNIT_AURA"
+--demon hunter
+oUF.Tags.Methods['raid:sf'] = function(u) if UnitAura(u, L["Soul Fragments"]) then return "|cff33FF33"..x.."|r" end end
+oUF.Tags.Events['raid:sf'] = "UNIT_AURA"
 
 --paladin
 oUF.Tags.Events['raid:beaconTime'] = "UNIT_AURA"
@@ -183,7 +198,7 @@ end
 oUF.Tags.Events['raid:beacon'] = "UNIT_AURA"
 oUF.Tags.Methods['raid:eflTime'] = function(u)
   local name, _,_,_,_,_, expirationTime, fromwho,_ = UnitAura(u, L["Eternal Flame"])
-  if (fromwho == "player") then return getTime(expirationTime) end 
+  if (fromwho == "player") then return getTime(expirationTime) end
 end
 oUF.Tags.Events['raid:eflTime'] = "UNIT_AURA"
 oUF.Tags.Methods['raid:ssh'] = function(u)
@@ -206,21 +221,21 @@ oUF.Tags.Methods['raid:forb'] = function(u) if UnitDebuff(u, L["Forbearance"]) t
 oUF.Tags.Events['raid:forb'] = "UNIT_AURA"
 
 --shaman
-oUF.Tags.Methods['raid:rip'] = function(u) 
+oUF.Tags.Methods['raid:rip'] = function(u)
 	local name, _,_,_,_,_,_, fromwho,_ = UnitAura(u, L['Riptide'])
 	if not (fromwho == 'player') then return end
 	if UnitAura(u, L['Riptide']) then return '|cff00FEBF'..x..'|r' end end
 oUF.Tags.Events['raid:rip'] = 'UNIT_AURA'
 oUF.Tags.Methods['raid:ripTime'] = function(u)
 	local name, _,_,_,_,_, expirationTime, fromwho,_ = UnitAura(u, L['Riptide'])
-	if (fromwho == "player") then return getTime(expirationTime) end 
+	if (fromwho == "player") then return getTime(expirationTime) end
 end
 oUF.Tags.Events['raid:ripTime'] = 'UNIT_AURA'
 
 --monk
 oUF.Tags.Methods['raid:rmTime'] = function(u)
   local name, _,_,_,_,_, expirationTime, fromwho,_ = UnitAura(u, L["Renewing Mist"])
-  if (fromwho == "player") then return getTime(expirationTime) end 
+  if (fromwho == "player") then return getTime(expirationTime) end
 end
 oUF.Tags.Events['raid:rmTime'] = "UNIT_AURA"
 oUF.Tags.Methods['raid:em'] = function(u) if UnitAura(u, L["Enveloping Mist"]) then return "|cff33FF33"..x.."|r" end end
@@ -257,7 +272,7 @@ oUF.classIndicators={
 				["BL"] = "[raid:beacon]",
 				["BR"] = "[raid:might][raid:motw]",
 				["Cen"] = "[raid:eflTime]",
-				
+
 		},
 		["WARLOCK"] = {
 				["TL"] = "[raid:ss]",
@@ -277,13 +292,12 @@ oUF.classIndicators={
 				["TL"] = "",
 				["TR"] = "",
 				["BL"] = "",
-				["BR"] = "[raid:how]",
 				["Cen"] = "",
 		},
 		["SHAMAN"] = {
 				["TL"] = "",
 				["TR"] = "[raid:earth]",
-				["BL"] = "",
+				["BL"] = "[raid:wrack]",
 				["BR"] = "",
 				["Cen"] = "[raid:ripTime]",
 		},
@@ -314,5 +328,12 @@ oUF.classIndicators={
 				["BL"] = "[raid:lc]",
 				["BR"] = "[raid:motw]",
 				["Cen"] = "[raid:rmTime]",
-		}
+		},
+    ["DEMONHUNTER"] = {
+        ["TL"] = "",
+        ["TR"] = "",
+        ["BL"] = "",
+        ["BR"] = "",
+        ["Cen"] = "",
+    },
 }

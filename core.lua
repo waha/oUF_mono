@@ -2,10 +2,10 @@
   local cfg = ns.cfg
   local lib = ns.lib
   local oUF = ns.oUF or oUF
-  
+
   local class = select(2, UnitClass("player"))
   -- compatibility with older versions cfg
-  
+
   -----------------------------
   -- STYLE FUNCTIONS
   -----------------------------
@@ -23,16 +23,16 @@
 		lib.gen_RaidMark(self)
 	end
 	self.Health.frequentUpdates = true
-	if cfg.oUF.settings.ReverseHPbars then 
-		self.colors.smooth = {.9,.6,.6, .8,.5,.5, .7,.6,.6} 
+	if cfg.oUF.settings.ReverseHPbars then
+		self.colors.smooth = {.9,.6,.6, .8,.5,.5, .7,.6,.6}
 		self.Health.colorSmooth = true
 		--self.Health.bg.multiplier = 0.3
-	else 
-		--self.colors.smooth = {1,0,0, .7,.41,.44, .3,.3,.3} 
-		self.Health.colorHealth = true 
-		self.colors.health = {.2,.2,.2} 
+	else
+		--self.colors.smooth = {1,0,0, .7,.41,.44, .3,.3,.3}
+		self.Health.colorHealth = true
+		self.colors.health = {.2,.2,.2}
 	end
-	
+
 	self.Health.colorDisconnected = true
 
    	if cfg.oUF.settings.click2focus.enable then -- may cause taint
@@ -44,7 +44,7 @@
 		else
 			self:SetAttribute(key, 'focus')
 		end
-	end 
+	end
 
   end
 
@@ -54,7 +54,7 @@
     self.height = cfg.oUF.frames.player.height
     self.mystyle = "player"
     genStyle(self)
-    self.Health.Smooth = true
+    self.Health.Smooth = false
     self.Power.frequentUpdates = true
     self.Power.Smooth = true
     self.Power.colorPower = true
@@ -64,7 +64,7 @@
     lib.gen_portrait(self)
     lib.gen_mirrorcb(self)
     lib.gen_ppstrings(self)
-	
+
 	--lib.gen_Shadoworbs(self)
 	--lib.gen_HolyPower(self)
 	--lib.gen_Harmony(self)
@@ -72,6 +72,7 @@
 		if class == "PRIEST" or class == "MONK" or class == "PALADIN" then lib.gen_ClassIcons(self)	end
 		lib.gen_WarlockSpecBar(self)
 		lib.gen_Runes(self)
+    lib.gen_SoulFragments(self)
 		lib.gen_EclipseBar(self)
 		lib.gen_TotemBar(self)
 	end
@@ -85,8 +86,8 @@
 	if cfg.oUF.settings.playerauras=="BUFFS" then lib.createBuffs(self) end
 	if cfg.oUF.settings.playerauras=="DEBUFFS" then lib.createDebuffs(self) end
 	self:SetSize(self.width,self.height)
-  end  
-  
+  end
+
   --the target style
   local function CreateTargetStyle(self, unit)
     self.width = cfg.oUF.frames.target.width
@@ -108,8 +109,8 @@
     if cfg.oUF.settings.ghost_target then lib.gen_faketarget(self) end
 	self:SetSize(self.width,self.height)
 	--self.Auras.onlyShowPlayer = true
-  end  
-  
+  end
+
   --the tot style
   local function CreateToTStyle(self, unit)
     self.width = cfg.oUF.frames.tot.width
@@ -119,13 +120,13 @@
     self.Health.colorClass = false
     self.Power.colorPower = true
     self.Power.bg.multiplier = 0.3
-    if unit == "targettarget" then 
+    if unit == "targettarget" then
 		--lib.createBuffs(self)
-		lib.createDebuffs(self) 
+		lib.createDebuffs(self)
 	end
 	self:SetSize(self.width,self.height)
-  end 
-  
+  end
+
   --the pet style
   local function CreatePetStyle(self, unit)
     self.width = cfg.oUF.frames.pet.width
@@ -141,7 +142,7 @@
     lib.createDebuffs(self)
 	lib.gen_alt_powerbar(self)
 	self:SetSize(self.width,self.height)
-  end  
+  end
 
   --the focus style
   local function CreateFocusStyle(self, unit)
@@ -156,7 +157,7 @@
     lib.createAuras(self)
 	self:SetSize(self.width,self.height)
   end
-  
+
   --partypet style
   local function CreatePartyPetStyle(self)
     self.width = cfg.oUF.frames.party.height+cfg.oUF.frames.party.height/3+3
@@ -167,7 +168,7 @@
       insideAlpha = 1,
       outsideAlpha = 0.6}
   end
-  
+
   --the party style
   local function CreatePartyStyle(self)
 	if self:GetAttribute("unitsuffix") == "pet" then
@@ -191,8 +192,8 @@
     lib.gen_targeticon(self)
 	lib.gen_LFDindicator(self)
 	lib.gen_specificpower(self)
-  end  
-  
+  end
+
   --arena frames
   local function CreateArenaStyle(self, unit)
     self.width = cfg.oUF.frames.arena_boss.width
@@ -219,10 +220,10 @@
     self.height = self.width
     self.mystyle = "arenatarget"
     genStyle(self)
-    
+
 	self:SetSize(self.width,self.height)
-  end  
-  
+  end
+
   --boss frames
   local function CreateBossStyle(self, unit)
     self.width = cfg.oUF.frames.arena_boss.width
@@ -237,7 +238,7 @@
     lib.gen_castbar(self)
 	lib.gen_alt_powerbar(self)
 	self:SetSize(self.width,self.height)
-  end  
+  end
 
   -----------------------------
   -- SPAWN UNITS
@@ -251,25 +252,25 @@
   oUF:RegisterStyle("monoArena", CreateArenaStyle)
   oUF:RegisterStyle("monoArenaTarget", CreateArenaTargetStyle)
   oUF:RegisterStyle("monoBoss", CreateBossStyle)
-  
+
 oUF:Factory(function(self)
   self:SetActiveStyle("monoPlayer")
   local player = self:Spawn("player", "oUF_monoPlayerFrame")
   player:SetPoint(unpack(cfg.oUF.frames.player.position))
   player:SetScale(cfg.oUF.frames.player.scale)
-  
+
   self:SetActiveStyle("monoTarget")
   local target = self:Spawn("target", "oUF_monoTargetFrame")
   target:SetPoint(unpack(cfg.oUF.frames.target.position))
   target:SetScale(cfg.oUF.frames.target.scale)
-  
+
   if cfg.oUF.frames.tot.enable then
     self:SetActiveStyle("monoToT")
     local tot = self:Spawn("targettarget", "oUF_mono_ToTFrame")
 	tot:SetPoint(unpack(cfg.oUF.frames.tot.position))
 	tot:SetScale(cfg.oUF.frames.tot.scale)
   end
-  
+
   if cfg.oUF.frames.focus.enable then
     self:SetActiveStyle("monoFocus")
     local focus = self:Spawn("focus", "oUF_monoFocusFrame")
@@ -282,7 +283,7 @@ oUF:Factory(function(self)
   else
     oUF:DisableBlizzard'focus'
   end
-  
+
   if cfg.oUF.frames.pet.enable then
     self:SetActiveStyle("monoPet")
     local pet = self:Spawn("pet", "oUF_monoPetFrame")
@@ -307,18 +308,18 @@ oUF:Factory(function(self)
   local visible = 'custom [group:party,nogroup:raid][@raid6,noexists,group:raid] show;hide'
   --local visible = 'raid, party'
   if cfg.oUF.frames.party.enable then
-    self:SetActiveStyle("monoParty") 
+    self:SetActiveStyle("monoParty")
     local party = self:SpawnHeader("monoParty",nil,visible,
 	'oUF-initialConfigFunction', init:format(w,h,s,ph,ph),
 	'showParty',true,
 	'template','oUF_monoPartyPet',
-	--'useOwnerUnit', true, 
+	--'useOwnerUnit', true,
 	'yOffset', -cfg.oUF.frames.party.spacing)
     party:SetPoint(unpack(cfg.oUF.frames.party.position))
   else
     oUF:DisableBlizzard'party'
   end
-  
+
   local gap = cfg.oUF.frames.arena_boss.spacing
   if cfg.oUF.frames.arena_boss.enable_arena and not IsAddOnLoaded('Gladius') then
     --SetCVar("showArenaEnemyFrames", false)
@@ -334,7 +335,7 @@ oUF:Factory(function(self)
         arena[i]:SetPoint("BOTTOMRIGHT", arena[i-1], "BOTTOMRIGHT", 0, gap)
       end
     end
-	
+
 --	Arena preparation
 	local arenaprep = {}
 	for i = 1, 5 do
@@ -347,27 +348,27 @@ oUF:Factory(function(self)
 		arenaprep[i].Health = CreateFrame("StatusBar", nil, arenaprep[i])
 		arenaprep[i].Health:SetAllPoints()
 		arenaprep[i].Health:SetStatusBarTexture(cfg.oUF.media.statusbar)
-		
+
 		local h = CreateFrame("Frame", nil, arenaprep[i].Health)
 		h:SetFrameLevel(0)
 		h:SetPoint("TOPLEFT",-4,4)
 		h:SetPoint("BOTTOMRIGHT",4,-4)
 		lib.gen_backdrop(h)
-		
+
 		arenaprep[i].Spec = lib.gen_fontstring(arenaprep[i].Health, cfg.oUF.media.font, 13, "THINOUTLINE")
 		arenaprep[i].Spec:SetPoint("CENTER")
-		
+
 		arenaprep[i].Power = CreateFrame("StatusBar",nil,arenaprep[i].Health)
 		arenaprep[i].Power:SetSize(arenaprep[i].Health:GetWidth(), arenaprep[i].Health:GetHeight()/3)
 		arenaprep[i].Power:SetPoint("TOPLEFT",arenaprep[i].Health,"BOTTOMLEFT",0,-2)
 		arenaprep[i].Power:SetStatusBarTexture(cfg.oUF.media.statusbar)
-		
+
 		local h2 = CreateFrame("Frame",nil,arenaprep[i].Power)
 		h2:SetFrameLevel(0)
 		h2:SetPoint("TOPLEFT",-3.5,5)
 		h2:SetPoint("BOTTOMRIGHT",3.5,-5)
 		lib.gen_backdrop(h2)
-		
+
 		arenaprep[i]:Hide()
 	end
 	local prepupdate = CreateFrame("Frame", nil, UIParent)
@@ -427,7 +428,7 @@ oUF:Factory(function(self)
 	  arenatarget[i]:SetScale(cfg.oUF.frames.arena_boss.scale)
     end
   end
-  
+
   if cfg.oUF.frames.arena_boss.enable_boss then
     self:SetActiveStyle("monoBoss")
     local boss = {}
@@ -441,7 +442,7 @@ oUF:Factory(function(self)
       end
     end
   end
-end)  
+end)
 
 
 SlashCmdList["SHOW_ARENA"] = function()
@@ -458,4 +459,4 @@ SlashCmdList["SHOW_BOSS"] = function()
     oUF_Boss3:Show(); oUF_Boss3.Hide = function() end oUF_Boss3.unit = "player"
     oUF_Boss4:Show(); oUF_Boss4.Hide = function() end oUF_Boss4.unit = "player"
 end
-SLASH_SHOW_BOSS1 = "/testboss" 
+SLASH_SHOW_BOSS1 = "/testboss"
