@@ -118,7 +118,7 @@
   -- threat updater
   local updateThreat = function(self, event, unit)
     if(unit ~= self.unit) then return end
-    local threat = self.Threat
+    local threat = self.ThreatIndicator
     unit = unit or self.unit
     local status = UnitThreatSituation(unit)
     if(status and status > 1) then
@@ -183,7 +183,7 @@
 		bg.t:SetBackdropColor(0, 0, 0, 0)
 		bg.t:SetBackdropBorderColor(0, 1, 1, 0)
 		bg.t.Override = updateThreat
-		f.Threat = bg.t
+		f.ThreatIndicator = bg.t
 	end
 
 	local sp = s:CreateTexture(nil, "OVERLAY")
@@ -314,7 +314,7 @@
 		local ri = lib.gen_fontstring(f.Power, cfg.oUF.media.font, 11, "THINOUTLINE")
 		ri:SetPoint("LEFT", info, "RIGHT",2,0)
 		ri:SetText("|cff8AFF30Zzz|r")
-		f.Resting = ri
+		f.RestingIndicator = ri
 	end
 	pp.frequentUpdates = 0.2 -- test it!!1
     if class == "DRUID" then
@@ -1070,17 +1070,12 @@
     local li = h:CreateTexture(nil, "OVERLAY")
     li:SetPoint("TOPLEFT", f, 0, 6)
     li:SetSize(12,12)
-    f.Leader = li
+    f.LeaderIndicator = li
     --Assist icon
     local ai = h:CreateTexture(nil, "OVERLAY")
     ai:SetPoint("TOPLEFT", f, 0, 6)
     ai:SetSize(12,12)
-    f.Assistant = ai
-    --ML icon
-    local ml = h:CreateTexture(nil, 'OVERLAY')
-    ml:SetSize(12,12)
-    ml:SetPoint('LEFT', f.Leader, 'RIGHT')
-    f.MasterLooter = ml
+    f.AssistantIndicator = ai
   end
   --gen raid mark icons
   lib.gen_RaidMark = function(f)
@@ -1091,7 +1086,7 @@
     local ri = h:CreateTexture(nil,'OVERLAY',h)
     ri:SetPoint("CENTER", f, "CENTER", 0, 0)
     ri:SetSize(cfg.oUF.settings.raid_mark.size, cfg.oUF.settings.raid_mark.size)
-    f.RaidIcon = ri
+    f.RaidTargetIndicator = ri
   end
   --gen hilight texture
   lib.gen_highlight = function(f)
