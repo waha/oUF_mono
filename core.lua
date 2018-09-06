@@ -65,17 +65,14 @@
     lib.gen_mirrorcb(self)
     lib.gen_ppstrings(self)
 
-	--lib.gen_Shadoworbs(self)
-	--lib.gen_HolyPower(self)
-	--lib.gen_Harmony(self)
 	if cfg.oUF.settings.ClassBars.enable then
-		if class == "PRIEST" or class == "MONK" or class == "PALADIN" then lib.gen_ClassIcons(self)	end
+		lib.gen_ClassPower(self)
 		lib.gen_WarlockSpecBar(self)
 		lib.gen_Runes(self)
-    lib.gen_SoulFragments(self)
-		lib.gen_EclipseBar(self)
 		lib.gen_TotemBar(self)
 	end
+	if class == "DRUID" then lib.gen_AdditionalPower(self) end
+
 	if cfg.oUF.settings.ClassBars.position then
 		lib.gen_alt_powerbar(self)
 	end
@@ -104,7 +101,6 @@
     lib.gen_portrait(self)
     lib.createAuras(self)
     lib.gen_ppstrings(self)
-    lib.gen_cp(self)
 	lib.gen_combat_feedback(self)
     if cfg.oUF.settings.ghost_target then lib.gen_faketarget(self) end
 	self:SetSize(self.width,self.height)

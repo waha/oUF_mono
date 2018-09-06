@@ -318,7 +318,7 @@
 	end
 	pp.frequentUpdates = 0.2 -- test it!!1
     if class == "DRUID" then
-      f:Tag(pp, '[mono:druidpower] [mono:pp]')
+      f:Tag(pp, '[mono:pp]')
     else
       f:Tag(pp, '[mono:pp]')
     end
@@ -813,24 +813,10 @@
       end
   end
 
-  -- Soul Fragments bar
-  lib.gen_SoulFragments = function(f)
-    if class ~= "DEMONHUNTER" then return end
-    local h = CreateFrame("Frame", nil, f)
-    h:SetAllPoints(f.Health)
-    h:SetFrameLevel(10)
-    local cp = lib.gen_fontstring(h, cfg.oUF.media.font, 30, "THINOUTLINE")
-    cp:SetPoint("CENTER", f.Health, "CENTER",0,3)
-    f:Tag(cp, '[mono:sf]')
-  end
-
-  -- gen ClassIcons (priests, monks, paladins)
+  -- gen ClassPower (priests, monks, paladins)
   -- need to update the bar width depending on current max value of class specific power
-  local PostUpdateClassPowerIcons = function(element, power, maxPower, maxPowerChanged, event)
+  local PostUpdateClassPower = function(element, power, maxPower, maxPowerChanged)
 	local f = element:GetParent()
-	if event == 'ClassPowerDisable' then
-		return
-	end
 	if not maxPower == 0 then
     for i = 1, maxPower do
         element[i]:SetSize((f.width*0.7 - 2 * (maxPower - 1)) / maxPower, f.height/3)
@@ -838,14 +824,13 @@
   end
   end
 
-  lib.gen_ClassIcons = function(f)
- 	if not (class == "PRIEST" or class == "MONK" or class == "PALADIN") then return end
+  lib.gen_ClassPower = function(f)
 	local ci = CreateFrame("Frame", nil, f)
 	ci:SetPoint('CENTER', f.Health, 'TOP', 0, 1)
 	if cfg.oUF.settings.ClassBars.undock then ci:ClearAllPoints() ci:SetPoint(unpack(cfg.oUF.settings.ClassBars.position)) end
 	ci:SetSize(f.width*0.7, f.height/3)
 		--local c = 5
-		for i = 1, 5 do
+		for i = 1, 11 do
 			ci[i] = CreateFrame("StatusBar", f:GetName().."_ClassBar"..i, f)
 			ci[i]:SetSize(ci:GetWidth()/5-2, ci:GetHeight()-1)
 			ci[i]:SetStatusBarTexture(cfg.oUF.media.statusbar)
@@ -864,8 +849,8 @@
 			end
 			--ci[i]:SetPoint('TOPLEFT', ci, 'TOPLEFT', i * (ci[i]:GetWidth()+2), 0)
 		end
-	f.ClassIcons = ci
-	f.ClassIcons.PostUpdate = PostUpdateClassPowerIcons
+	f.ClassPower = ci
+	f.ClassPower.PostUpdate = PostUpdateClassPower
   end
 
   -- gen bar for warlocks' spec-specific powers
@@ -1228,18 +1213,18 @@
   end
 
   -- alt power bar
-  local AltPowerPostUpdate = function(app, min, cur, max)
+  local AltPowerPostUpdate = function(app, cur, min, max)
 	--app.v:SetText(cur)
 	local self = app.__owner
     local tex, r, g, b = UnitAlternatePowerTextureInfo(self.unit, 2)
 	if not tex then return end
-    if tex:match("STONEGUARDAMETHYST_HORIZONTAL_FILL.BLP") then
+	if tex == 629029 then
 		app:SetStatusBarColor(.7, .3, 1)
-	elseif tex:match("STONEGUARDCOBALT_HORIZONTAL_FILL.BLP") then
+	elseif tex == 629031 then -- 629031
 		app:SetStatusBarColor(.1, .8, 1)
-	elseif tex:match("STONEGUARDJADE_HORIZONTAL_FILL.BLP") then
+	elseif tex == 629033 then -- 629033
 		app:SetStatusBarColor(.5, 1, .2)
-	elseif tex:match("STONEGUARDJASPER_HORIZONTAL_FILL.BLP") then
+	elseif tex == 629035 then -- 629035
         app:SetStatusBarColor(1, 0, 0)
     end
   end
@@ -1277,5 +1262,50 @@
 	f.AlternativePower = apb
 	f.AlternativePower.PostUpdate = AltPowerPostUpdate
   end
-  --hand the lib to the namespace for further usage
+
+  lib.PostUpdateAdditionalPower = function(s, u, cur, max)
+--	  if not cfg.oUF.settings.ReverseHPbars then s.bd:SetVertexColor(.8,.5,.5) else s.bd:SetVertexColor(.15,.15,.15) end
+  end
+  
+  lib.gen_AdditionalPower = function(f)
+	local s = CreateFrame("StatusBar", nil, f)
+	s:SetStatusBarTexture(cfg.oUF.media.statusbar)
+	fixStatusbar(s)
+	s:SetPoint('CENTER', f.Health, 'TOP', 0, 1)
+	if cfg.oUF.settings.ClassBars.undock then s:ClearAllPoints() s:SetPoint(unpack(cfg.oUF.settings.ClassBars.position)) end
+	s:SetFrameLevel(10)
+	s:SetSize(f.width*0.7, f.height/3)
+	s:SetOrientation("HORIZONTAL")
+	--shadow backdrop
+	local h = CreateFrame("Frame", nil, s)
+	--h:SetFrameLevel(3)
+	h:SetFrameLevel(s:GetFrameLevel()-2)
+	h:SetPoint("TOPLEFT",-4,4)
+	h:SetPoint("BOTTOMRIGHT",4,-4)
+	lib.gen_backdrop(h)
+	--bar bg
+	local bg = CreateFrame("Frame", nil, s)
+	bg:SetFrameLevel(s:GetFrameLevel()-1)
+	bg:SetAllPoints(s)
+	local b = bg:CreateTexture(nil, "BACKGROUND")
+	b:SetTexture(cfg.oUF.media.statusbar)
+	b:SetAllPoints(s)
+	b:SetVertexColor(.1,.1,.3)
+
+	s.colorPower = true
+	s.PostUpdate = lib.PostUpdateAdditionalPower
+	f.AdditionalPower = s
+	f.AdditionalPower.bd = b
+
+	local h = CreateFrame("Frame", nil, f)
+	h:SetAllPoints(f.AdditionalPower)
+	h:SetFrameLevel(10)
+	local fh = 11
+	local pp = lib.gen_fontstring(h, cfg.oUF.media.font, fh, "THINOUTLINE")
+	pp:SetPoint("RIGHT", f.AdditionalPower, "RIGHT",-5,0)
+	pp.frequentUpdates = 0.2 -- test it!!1
+	f:Tag(pp, '[mono:addpower]')
+--	if cfg.oUF.settings.class_color_power then s.PreUpdate = lib.PreUpdatePower end
+  end
+--hand the lib to the namespace for further usage
   ns.lib = lib
