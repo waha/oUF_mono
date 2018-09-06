@@ -17,8 +17,8 @@ A default texture will be applied if the widget is a StatusBar and doesn't have 
 
 ## Options
 
-.frequentUpdates - Indicates whether to use UNIT_POWER_FREQUENT instead UNIT_POWER to update the bar. Only valid for the
-                   player and pet units (boolean)
+.frequentUpdates - Indicates whether to use UNIT_POWER_FREQUENT instead UNIT_POWER_UPDATE to update the bar. Only valid
+                   for the player and pet units (boolean)
 .displayAltPower - Use this to let the widget display alternate power if the unit has one. If no alternate power the
                    display will fall back to primary power (boolean)
 .useAtlas        - Use this to let the widget use an atlas for its texture if `.atlas` is defined on the widget or an
@@ -92,7 +92,7 @@ local _, ns = ...
 local oUF = ns.oUF
 
 -- sourced from FrameXML/UnitPowerBarAlt.lua
-local ALTERNATE_POWER_INDEX = ALTERNATE_POWER_INDEX or 10
+local ALTERNATE_POWER_INDEX = Enum.PowerType.Alternate or 10
 
 local function getDisplayPower(unit)
 	local _, min, _, _, _, _, showOnRaid = UnitAlternatePowerInfo(unit)
@@ -215,7 +215,7 @@ local function Update(self, event, unit)
 	* cur         - the unit's current power value (number)
 	* min         - the unit's minimum possible power value (number)
 	* max         - the unit's maximum possible power value (number)
-	* displayType - the alternative power display type if applicable (number?)[ALTERNATE_POWER_INDEX]
+	* displayType - the alternative power display type if applicable (number?)[Enum.PowerType.Alternate]
 	--]]
 	element:UpdateColor(unit, cur, min, max, displayType)
 
@@ -258,7 +258,7 @@ local function Enable(self, unit)
 		if(element.frequentUpdates and (unit == 'player' or unit == 'pet')) then
 			self:RegisterEvent('UNIT_POWER_FREQUENT', Path)
 		else
-			self:RegisterEvent('UNIT_POWER', Path)
+			self:RegisterEvent('UNIT_POWER_UPDATE', Path)
 		end
 
 		self:RegisterEvent('UNIT_POWER_BAR_SHOW', Path)
@@ -289,7 +289,7 @@ local function Disable(self)
 		element:Hide()
 
 		self:UnregisterEvent('UNIT_POWER_FREQUENT', Path)
-		self:UnregisterEvent('UNIT_POWER', Path)
+		self:UnregisterEvent('UNIT_POWER_UPDATE', Path)
 		self:UnregisterEvent('UNIT_POWER_BAR_SHOW', Path)
 		self:UnregisterEvent('UNIT_POWER_BAR_HIDE', Path)
 		self:UnregisterEvent('UNIT_DISPLAYPOWER', Path)
