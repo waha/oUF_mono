@@ -10,7 +10,7 @@ local channelingTicks = {
 	[GetSpellInfo(740)] = 4, -- "Tranquility"
 	-- priest
 	[GetSpellInfo(15407)] = 3, -- "Mind Flay"
-	[GetSpellInfo(234702)] = 5, -- "Mind Sear"
+	[GetSpellInfo(48045)] = 5, -- "Mind Sear"
 	[GetSpellInfo(47540)] = 2, -- "Penance"
 	-- mage
 	[GetSpellInfo(5143)] = 5, -- "Arcane Missiles"
@@ -79,7 +79,7 @@ if GetNetStats() == 0 then return end -- test
 	end
 end
 
-cast.OnCastSent = function(self, event, unit, spell, rank)
+cast.OnCastSent = function(self, event, unit, spell)
 	if self.unit ~= unit or not self.Castbar.SafeZone then return end
 	self.Castbar.SafeZone.sendTime = GetTime()
 	self.Castbar.SafeZone.castSent = true
@@ -114,7 +114,7 @@ cast.PostCastStart = function(self, unit, name, rank, text)
 			self.channelingTicks = channelingTicks[spell] or 0
 			cast.setBarTicks(self, self.channelingTicks)
 		end
-	elseif (unit == "target" or unit == "focus" or (unit and unit:find("boss%d"))) and self.interrupt then
+	elseif (unit == "target" or unit == "focus" or (unit and unit:find("boss%d"))) and self.notInterruptible then
 		self:SetStatusBarColor(unpack(cfg.oUF.castbar.color.uninterruptable))
 	else
 		self:SetStatusBarColor(cfg.oUF.castbar.color.normal[1], cfg.oUF.castbar.color.normal[2], cfg.oUF.castbar.color.normal[3],1)
