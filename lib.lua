@@ -1261,7 +1261,7 @@
   lib.PostUpdateAdditionalPower = function(s, u, cur, max)
 --	  if not cfg.oUF.settings.ReverseHPbars then s.bd:SetVertexColor(.8,.5,.5) else s.bd:SetVertexColor(.15,.15,.15) end
   end
-  
+
   lib.gen_AdditionalPower = function(f)
 	local s = CreateFrame("StatusBar", nil, f)
 	s:SetStatusBarTexture(cfg.oUF.media.statusbar)
