@@ -208,11 +208,17 @@ oUF.Tags.Methods['mono:pp'] = function(u)
 end
 oUF.Tags.Events['mono:pp'] = oUF.Tags.Events.missingpp
 
-oUF.Tags.Methods['mono:druidpower'] = function(u)
-  local min, max = UnitPower(u, 0), UnitPowerMax(u, 0)
-  return u == 'player' and UnitPowerType(u) ~= 0 and min ~= max and ('|cff5F9BFF%d%%|r |'):format(min / max * 100)
+oUF.Tags.Methods['mono:addpower'] = function(u)
+  local id, str = UnitPowerType(u)
+--  local min, max = UnitPower(u, 0), UnitPowerMax(u, 0)
+  local col = pcolors.power[str] or {250/255, 75/255, 60/255}
+  if cfg.oUF.settings.class_color_power then col = oUF.colors.class[select(2,UnitClass(u))] end
+  if id == 8 and str and UnitPowerType(u) ~= 0 then
+    return hex(col)..SVal(UnitPower(u, 0))
+  end
+--  return u == 'player' and UnitPowerType(u) ~= 0 and ('|cff5F9BFF%d%%|r'):format(min / max * 100)
 end
-oUF.Tags.Events['mono:druidpower'] = oUF.Tags.Events.missingpp
+oUF.Tags.Events['mono:addpower'] = oUF.Tags.Events.missingpp
 
 -- name tags
 oUF.Tags.Methods['mono:name'] = function(u, r)
