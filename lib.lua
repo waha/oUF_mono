@@ -162,7 +162,7 @@
     lib.gen_backdrop(h)
     --bar bg
 	local bg = CreateFrame("Frame", nil, s)
-	bg:SetFrameLevel(s:GetFrameLevel()-2)
+	bg:SetFrameLevel(s:GetFrameLevel()-1)
     bg:SetAllPoints(s)
     local b = bg:CreateTexture(nil, "BACKGROUND")
     b:SetTexture(cfg.oUF.media.statusbar)
