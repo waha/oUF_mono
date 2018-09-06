@@ -338,8 +338,8 @@ oUF.Tags.Events['mono:cp'] = 'UNIT_POWER_FREQUENT'
 -- oUF.Tags.Events['mono:ws'] = 'UNIT_AURA'
 -- lightning shield / maelstrom weapon
 oUF.Tags.Methods['mono:ls'] = function(u)
-  local lsn, _, _, lsc = UnitBuff("player",GetSpellInfo(192106))
-  local mw, _, _, mwc = UnitBuff("player",GetSpellInfo(187880))
+--[[  local lsn, _, _, lsc = AuraUtil.FindAuraByName(GetSpellInfo(192106), "player", "HELPFUL")
+  local mw, _, _, mwc = AuraUtil.FindAuraByName(GetSpellInfo(187880), "player", "HELPFUL")
   if mw then
     if mwc == 1 then
       return "|cff8AFF30_|r"
