@@ -330,7 +330,7 @@ oUF.Tags.Events['mono:cp'] = 'UNIT_POWER_FREQUENT'
 -- special powers
 -- water shield
 -- oUF.Tags.Methods['mono:ws'] = function(u)
---   local name, _, _, count, _, duration = UnitBuff("player",GetSpellInfo(52127))
+--   local name, _, _, count, _, duration = AuraUtil.FindAuraByName(GetSpellInfo(52127), "player", "HELPFUL")
 --   if name then
 --     return "|cff8AFF30_|r"
 --   end
@@ -357,7 +357,7 @@ oUF.Tags.Methods['mono:ls'] = function(u)
       return ""
     end
 
-    -- -- local ils, _, _, ilc = UnitBuff("player",GetSpellInfo(157774))
+    -- -- local ils, _, _, ilc = AuraUtil.FindAuraByName(GetSpellInfo(157774), "player", "HELPFUL")
     --if ils then
     --  lsc = math.floor(lsc / 4)
     --else
@@ -379,12 +379,13 @@ oUF.Tags.Methods['mono:ls'] = function(u)
       return "|cff8AFF30_|r"
     end
   end
+]]
 end
 oUF.Tags.Events['mono:ls'] = 'UNIT_AURA'
 -- earth shield
 --oUF.earthCount = {1,2,3,4,5,6,7,8,9,10}
 -- oUF.Tags.Methods['raid:earth'] = function(u)
---   local name, _,_, c, _,_,_, source = UnitAura(u, GetSpellInfo(974))
+--   local name, _,_, c, _,_,_, source = AuraUtil.FindAuraByName(GetSpellInfo(974), u)
 --   if source == "player" then
 --     if(c) and name and (c ~= 0) then return '|cff79DB79'..c..'|r' end
 --   else
@@ -395,7 +396,7 @@ oUF.Tags.Events['mono:ls'] = 'UNIT_AURA'
 -- Prayer of Mending
 --oUF.pomCount = {1,2,3,4,5,6}
 oUF.Tags.Methods['raid:pom'] = function(u)
-  local _, _,_, c, _,_,_, source = UnitAura(u, GetSpellInfo(33076))
+  local _, _, c, _,_,_, source = AuraUtil.FindAuraByName("Prayer of Mending", u)
   if source == "player" then
     if(c) and (c ~= 0) then return "|cff79DB79"..c.."|r" end
   else
@@ -406,7 +407,7 @@ oUF.Tags.Events['raid:pom'] = "UNIT_AURA"
 -- Lifebloom
 --oUF.lbCount = { 1, 2, 3 }
 oUF.Tags.Methods['raid:lb'] = function(u)
-  local _, _,_, _,_,_, expirationTime, source,_ = UnitAura(u, GetSpellInfo(33763))
+  local _, _, _,_,_, expirationTime, source,_ = AuraUtil.FindAuraByName("Lifebloom", u);
   if not (source == "player") then return end
   local spellTimer = GetTime()-expirationTime
   if spellTimer > -2 then
