@@ -70,10 +70,10 @@ if cfg.oUF.frames.raid.enable then
 
   local visible -- my ASS
   if cfg.oUF.frames.raid.raid40 and cfg.oUF.frames.raid.raid5 then
-	visible = 'custom [@raid36,exists] hide;[group:party]show;show'
+	visible = 'custom [@raid26,exists] hide;[group:party]show;show'
   elseif cfg.oUF.frames.raid.raid40 and not cfg.oUF.frames.raid.raid5 then
-	visible = 'custom [@raid36,exists]hide;[@raid6,exists]show;[group:party]show;hide'
-	if not cfg.oUF.frames.raid.party then visible = 'custom [@raid36,exists]hide;[@raid6,exists]show;hide' end
+	visible = 'custom [@raid26,exists]hide;[@raid6,exists]show;[group:party]show;hide'
+	if not cfg.oUF.frames.raid.party then visible = 'custom [@raid26,exists]hide;[@raid6,exists]show;hide' end
   elseif not cfg.oUF.frames.raid.raid40 and cfg.oUF.frames.raid.raid5 then
 	visible = 'raid,party'
   elseif not cfg.oUF.frames.raid.raid40 and not cfg.oUF.frames.raid.raid5 then
@@ -128,7 +128,7 @@ if cfg.oUF.frames.raid.enable then
 	if cfg.oUF.frames.raid.raid40 then
 		oUF:RegisterStyle("oUF_monoRaidB", Raid40Style)
 		oUF:SetActiveStyle"oUF_monoRaidB"
-		local raid40 = oUF:SpawnHeader("oUF_Raid40", nil, "custom [@raid36,exists] show;hide", 
+		local raid40 = oUF:SpawnHeader("oUF_Raid40", nil, "custom [@raid26,exists] show;hide",
 		"showRaid", true,  
 		"showPlayer", true,
 		"showSolo", false,
