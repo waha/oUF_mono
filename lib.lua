@@ -1062,9 +1062,9 @@
     h:SetFrameLevel(10)
     --combat icon
     if f.mystyle == 'player' then
-		f.Combat = h:CreateTexture(nil, 'OVERLAY')
-		f.Combat:SetSize(20,20)
-		f.Combat:SetPoint('TOPRIGHT', 3, 9)
+		f.CombatIndicator = h:CreateTexture(nil, 'OVERLAY')
+		f.CombatIndicator:SetSize(20,20)
+		f.CombatIndicator:SetPoint('TOPRIGHT', 3, 9)
     end
     --Leader icon
     local li = h:CreateTexture(nil, "OVERLAY")
