@@ -531,7 +531,7 @@
 	overlay:GetParent().border:SetVertexColor(0, 0, 0, 1)
   end
   lib.PostUpdateIcon = function(self, unit, icon, index, offset)
-  local _, _, _, _, dtype, duration, expirationTime, unitCaster, _ = UnitAura(unit, index, icon.filter)
+  local _, _, _, dtype, duration, expirationTime, unitCaster, _ = UnitAura(unit, index, icon.filter)
   local color = DebuffTypeColor[dtype] or DebuffTypeColor.none
 
 --[[	if unitCaster ~= 'player' and unitCaster ~= 'vehicle' and not UnitIsFriend('player', unit) and icon.debuff then
