@@ -39,7 +39,7 @@ end)
 local debuffs = raid_debuffs.debuffs
 local asc_debuffs = raid_debuffs.ascending
 local CustomFilter = function(icons, ...)
-	local _, icon, name, _, _, _, dtype, _, _, caster, spellID = ...
+	local _, icon, name, _, _, dtype, _, _, caster, spellID = ...
     
 	icon.asc = false
     icon.priority = 0
@@ -185,10 +185,10 @@ local updateIcon = function(unit, debuffs)
 	local hide = true
 	local index = 1
 	while true do
-		local name, rank, texture, count, dtype, duration, expires, caster, _, _, spellID = UnitDebuff(unit, index)
+		local name, texture, count, dtype, duration, expires, caster, _, _, spellID = UnitDebuff(unit, index)
 		if not name then break end
 		local icon = debuffs.button
-		local show = CustomFilter(auras, unit, icon, name, rank, texture, count, dtype, duration, expires, caster, spellID)
+		local show = CustomFilter(auras, unit, icon, name, texture, count, dtype, duration, expires, caster, spellID)
         if(show) then
             if not cur then
                 cur = icon.priority
