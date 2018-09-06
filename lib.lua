@@ -415,7 +415,7 @@
 	  else
 		s:SetPoint("TOPRIGHT",f.Power,"BOTTOMRIGHT",0,-5)
 	  end
-      f:RegisterEvent("UNIT_SPELLCAST_SENT", cast.OnCastSent)
+--      f:RegisterEvent("UNIT_SPELLCAST_SENT", cast.OnCastSent)
 	elseif f.mystyle == "target" and cfg.oUF.castbar.target.undock then
 	  s:SetSize(cfg.oUF.castbar.target.width,cfg.oUF.castbar.target.height)
 	  s:SetPoint(unpack(cfg.oUF.castbar.target.position))
