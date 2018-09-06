@@ -57,7 +57,7 @@
 
   local updateThreat = function(self, event, unit)
     if(unit ~= self.unit) then return end
-    local threat = self.Threat
+    local threat = self.ThreatIndicator
     unit = unit or self.unit
     local status = UnitThreatSituation(unit)
     if(status and status > 1) then
@@ -128,7 +128,7 @@
     end
     local perc = oUF.Tags.Methods['perhp'](unit)
     if (perc < 10 and UnitIsConnected(unit) and ptype == 'MANA' and not UnitIsDeadOrGhost(unit)) then
-      self.Threat:SetBackdropBorderColor(0, 0, 1, 1)
+      self.ThreatIndicator:SetBackdropBorderColor(0, 0, 1, 1)
     else
       -- pass the coloring back to the threat func
       return updateThreat(self, nil, unit)
@@ -236,7 +236,7 @@
     t:SetBackdropColor(0, 0, 0, 0)
     t:SetBackdropBorderColor(0, 0, 0, 1)
     t.Override = updateThreat
-    f.Threat = t
+    f.ThreatIndicator = t
 
     -- Leader/Assistant/ML Icons
     if cfg.oUF.frames.raid.icons.leader then
@@ -245,20 +245,20 @@
       li:SetHeight(cfg.oUF.frames.raid.icons.size)
       li:SetWidth(cfg.oUF.frames.raid.icons.size)
       li:SetAlpha(0.75)
-      f.Leader = li
+      f.LeaderIndicator = li
 
       local ai = f.Health:CreateTexture(nil, "OVERLAY")
       ai:SetPoint("TOPLEFT", f, 0, 6)
       ai:SetHeight(cfg.oUF.frames.raid.icons.size)
       ai:SetWidth(cfg.oUF.frames.raid.icons.size)
       ai:SetAlpha(0.75)
-      f.Assistant = ai
+      f.AssistantIndicator = ai
 
       local ml = f.Health:CreateTexture(nil, 'OVERLAY')
       ml:SetHeight(cfg.oUF.frames.raid.icons.size)
       ml:SetWidth(cfg.oUF.frames.raid.icons.size)
       ml:SetPoint('LEFT', f.Leader, 'RIGHT')
-      f.MasterLooter = ml
+      f.MasterLooterIndicator = ml
     end
 
     -- Raid Icon
@@ -267,7 +267,7 @@
       ri:SetPoint("TOP", f, 0, 5)
       ri:SetHeight(cfg.oUF.frames.raid.icons.size)
       ri:SetWidth(cfg.oUF.frames.raid.icons.size)
-      f.RaidIcon = ri
+      f.RaidTargetIndicator = ri
     end
 
     -- ReadyCheck
@@ -279,7 +279,7 @@
 	  rci.fadeTimer = 1.5
       --rci.delayTime = 8
       --rci.fadeTime = 1
-	  f.ReadyCheck = rci
+	  f.ReadyCheckIndicator = rci
     end
 
     -- LFD Icon
