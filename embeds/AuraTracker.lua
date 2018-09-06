@@ -36,7 +36,6 @@ local function GetAuras()
 		[GetSpellInfo(1833)] 	= 3,	-- Cheap Shot
 		[GetSpellInfo(408)] 	= 3, 	-- Kidney Shot
 		[GetSpellInfo(1776)]	= 3, 	-- Gouge
-		[GetSpellInfo(44572)]	= 3, 	-- Deep Freeze
 		[GetSpellInfo(19386)]	= 3, 	-- Wyvern Sting
 		[GetSpellInfo(22570)]	= 3, 	-- Maim
 		[GetSpellInfo(853)]		= 3, 	-- Hammer of Justice
