@@ -23,8 +23,8 @@ local getZone = CreateFrame"Frame"
 getZone:RegisterEvent"PLAYER_ENTERING_WORLD"
 getZone:RegisterEvent"ZONE_CHANGED_NEW_AREA"
 getZone:SetScript("OnEvent", function(self, event)
-	SetMapToCurrentZone()
-    local zone = GetCurrentMapAreaID()
+	C_Map.GetBestMapForUnit("player")
+    local zone = WorldMapFrame:GetMapID()
     if instances[zone] then
       instDebuffs = instances[zone]
     else
