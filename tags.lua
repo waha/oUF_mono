@@ -86,7 +86,7 @@ oUF.Tags.Methods['mono:color'] = function(u, r)
     return hex(1, 1, 1)
   end
 end
-oUF.Tags.Events['mono:color'] = 'UNIT_REACTION UNIT_HEALTH UNIT_POWER'
+oUF.Tags.Events['mono:color'] = 'UNIT_HEALTH UNIT_NAME_UPDATE PLAYER_FLAGS_CHANGED UNIT_POWER_UPDATE'
 
 oUF.Tags.Methods['mono:gridcolor'] = function(u, r)
   local _, class = UnitClass(u)
@@ -306,7 +306,7 @@ oUF.Tags.Methods['mono:altpower'] = function(unit)
     return ("%s%%"):format(math.floor(cur/max*100+.5))
   end
 end
-oUF.Tags.Events['mono:altpower'] = 'UNIT_POWER'
+oUF.Tags.Events['mono:altpower'] = 'UNIT_POWER_UPDATE'
 
 -------------[[ class specific tags ]]-------------
 -- combo points
@@ -320,20 +320,7 @@ oUF.Tags.Methods['mono:cp'] = function(u)
   elseif cp == 5 then return "|cff"..cpcol[1].."_ _|r |cff"..cpcol[2].."_ _|r |cff"..cpcol[3].."_|r"
   end
 end
-oUF.Tags.Events['mono:cp'] = 'UNIT_COMBO_POINTS'
--- Soul Fragments
-oUF.Tags.Methods['mono:sf'] = function(u)
-  local name, _, _, count, _, duration = UnitBuff("player",GetSpellInfo(203981))
-  local cpcol = {"8AFF30","FFF130","FF6161"}
-  if count == 1 then return "|cff"..cpcol[1].."_|r"
-  elseif count == 2 then return "|cff"..cpcol[1].."_ _|r"
-  elseif count == 3 then return "|cff"..cpcol[1].."_ _|r |cff"..cpcol[2].."_|r"
-  elseif count == 4 then return "|cff"..cpcol[1].."_ _|r |cff"..cpcol[2].."_ _|r"
-  elseif count == 5 then return "|cff"..cpcol[1].."_ _|r |cff"..cpcol[2].."_ _|r |cff"..cpcol[3].."_|r"
-  elseif count == 6 then return "|cff"..cpcol[1].."_ _|r |cff"..cpcol[2].."_ _|r |cff"..cpcol[3].."_ _|r"
-  end
-end
-oUF.Tags.Events['mono:sf'] = 'UNIT_AURA'
+oUF.Tags.Events['mono:cp'] = 'UNIT_POWER_FREQUENT'
 -- special powers
 -- water shield
 -- oUF.Tags.Methods['mono:ws'] = function(u)
