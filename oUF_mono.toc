@@ -1,5 +1,5 @@
 ## Interface: 80000
-## Version: 5.3.1b
+## Version: 5.3.1c
 ## Title: oUF |cffffffffmono|r (fan update)
 ## Notes: oUF layout
 ## OptionalDeps: oUF_Smooth, oUF_HealComm, oUF_Swing
