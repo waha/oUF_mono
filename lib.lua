@@ -587,6 +587,7 @@
     button.cd:SetReverse()
     button.cd.noOCC = true
     button.cd.noCooldownCount = true
+	button.cd:SetHideCountdownNumbers(true)
     button.icon:SetTexCoord(0.1, 0.9, 0.1, 0.9)
     button.icon:SetDrawLayer("BACKGROUND")
 	--button.icon:SetPoint("TOPLEFT",1,-1)
