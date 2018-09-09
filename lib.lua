@@ -818,7 +818,7 @@
   -- need to update the bar width depending on current max value of class specific power
   local PostUpdateClassPower = function(element, power, maxPower, maxPowerChanged)
 	  local f = element:GetParent()
-	  if maxPower ~= 0 then
+	  if maxPower ~= nil and maxPower ~= 0 then
 		  for i = 1, maxPower do
 			  element[i]:SetSize((f.width*0.7 - 2 * (maxPower - 1)) / maxPower, f.height/3)
 		  end
