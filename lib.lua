@@ -262,6 +262,10 @@
   end
   --gen powerbar func
   lib.gen_ppbar = function(f)
+    -- don't create powerbar for party pets or arena targets anymore, as oUF will unhide them
+    if f.mystyle == "partypet" or f.mystyle == "arenatarget" then
+      return
+    end
     --statusbar
     local s = CreateFrame("StatusBar", nil, f)
     s:SetStatusBarTexture(cfg.oUF.media.statusbar)
@@ -270,9 +274,6 @@
     s:SetWidth(f.width-1)
     s:SetPoint("TOP",f,"BOTTOM",0,-2)
 	s:SetFrameLevel(6)
-    if f.mystyle == "partypet" or f.mystyle == "arenatarget" then
-      s:Hide()
-    end
     --helper
     local h = CreateFrame("Frame", nil, s)
     h:SetFrameLevel(s:GetFrameLevel()-2)
