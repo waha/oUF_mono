@@ -14,8 +14,8 @@ embeds\Trinkets.lua
 embeds\CombatFeedback.lua
 embeds\PartyPets.xml
 
-embeds\WarlockSpecBars.lua
-embeds\MonkHarmonyBar.lua
+## embeds\WarlockSpecBars.lua
+## embeds\MonkHarmonyBar.lua
 embeds\TotemBar.lua
 
 cfg.lua

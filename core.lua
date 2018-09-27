@@ -67,7 +67,7 @@
 
 	if cfg.oUF.settings.ClassBars.enable then
 		lib.gen_ClassPower(self)
-		lib.gen_WarlockSpecBar(self)
+--		lib.gen_WarlockSpecBar(self)
 		lib.gen_Runes(self)
 		lib.gen_TotemBar(self)
 	end
