@@ -154,7 +154,7 @@
     s:SetOrientation("HORIZONTAL")
 	s:SetFrameLevel(6)
     --shadow backdrop
-    local h = CreateFrame("Frame", nil, s)
+    local h = CreateFrame("Frame", nil, s, "BackdropTemplate")
     --h:SetFrameLevel(3)
 	h:SetFrameLevel(s:GetFrameLevel()-2)
     h:SetPoint("TOPLEFT",-4,4)
@@ -275,7 +275,7 @@
     s:SetPoint("TOP",f,"BOTTOM",0,-2)
 	s:SetFrameLevel(6)
     --helper
-    local h = CreateFrame("Frame", nil, s)
+    local h = CreateFrame("Frame", nil, s, "BackdropTemplate")
     h:SetFrameLevel(s:GetFrameLevel()-2)
     h:SetPoint("TOPLEFT",-4,4)
     h:SetPoint("BOTTOMRIGHT",4,-4)
@@ -329,7 +329,7 @@
 ------ [Castbar, +mirror castbar]
   --gen castbar
   lib.gen_castbar = function(f)
-    local s = CreateFrame("StatusBar", "oUF_monoCastbar"..f.mystyle, f)
+    local s = CreateFrame("StatusBar", "oUF_monoCastbar"..f.mystyle, f, "BackdropTemplate")
     s:SetSize(f.width-(f.height/1.4+4),f.height/1.4)
     s:SetStatusBarTexture(cfg.oUF.media.statusbar)
     s:SetStatusBarColor(unpack(cfg.oUF.castbar.color.normal),1)
@@ -340,7 +340,7 @@
     s.FailColor = {1.0, 0.09, 0}
     s.ChannelingColor = {unpack(cfg.oUF.castbar.color.normal)}
     --helper
-    local h = CreateFrame("Frame", nil, s)
+    local h = CreateFrame("Frame", nil, s, "BackdropTemplate")
     h:SetFrameLevel(0)
     h:SetPoint("TOPLEFT",-4,4)
     h:SetPoint("BOTTOMRIGHT",4,-4)
@@ -369,7 +369,7 @@
     i:SetPoint("RIGHT", s, "LEFT", -4.5, 0)
     i:SetTexCoord(0.1, 0.9, 0.1, 0.9)
     --helper2 for icon
-    local h2 = CreateFrame("Frame", nil, s)
+    local h2 = CreateFrame("Frame", nil, s, "BackdropTemplate")
     h2:SetFrameLevel(0)
     h2:SetPoint("TOPLEFT",i,"TOPLEFT",-5,5)
     h2:SetPoint("BOTTOMRIGHT",i,"BOTTOMRIGHT",5,-5)
@@ -453,7 +453,7 @@
       _G[bar]:SetParent(UIParent)
       _G[bar]:SetScale(1)
       _G[bar]:SetHeight(16)
-      _G[bar]:SetBackdropColor(.1,.1,.1)
+--      _G[bar]:SetBackdropColor(.1,.1,.1) FIXME
       _G[bar..'Background'] = _G[bar]:CreateTexture(bar..'Background', 'BACKGROUND', _G[bar])
       _G[bar..'Background']:SetTexture(cfg.oUF.media.statusbar)
       _G[bar..'Background']:SetAllPoints(bar)
@@ -463,7 +463,7 @@
       _G[bar..'Text']:SetPoint('CENTER', _G[bar..'StatusBar'], 0, 0)
 	  _G[bar..'StatusBar']:SetAllPoints(_G[bar])
       --glowing borders
-      local h = CreateFrame("Frame", nil, _G[bar])
+      local h = CreateFrame("Frame", nil, _G[bar], "BackdropTemplate")
       h:SetFrameLevel(0)
       h:SetPoint("TOPLEFT",-4,4)
       h:SetPoint("BOTTOMRIGHT",4,-4)
@@ -599,7 +599,7 @@
     button.count:SetPoint("BOTTOMRIGHT", 2, -2)
     button.count:SetTextColor(1,1,1)
     --button backdrop
-    button.bd = CreateFrame("Frame", nil, button)
+    button.bd = CreateFrame("Frame", nil, button, "BackdropTemplate")
     button.bd:SetFrameLevel(0)
     button.bd:SetPoint("TOPLEFT",-4,4)
     button.bd:SetPoint("BOTTOMRIGHT",4,-4)
@@ -806,7 +806,7 @@
         r.bd:SetAllPoints()
         r.bd:SetTexture(cfg.oUF.media.statusbar)
         r.bd:SetVertexColor(0.15, 0.15, 0.15)
-		local h = CreateFrame("Frame", nil, r)
+		local h = CreateFrame("Frame", nil, r, "BackdropTemplate")
 		h:SetFrameLevel(10)
 		h:SetPoint("TOPLEFT",-4,3)
 		h:SetPoint("BOTTOMRIGHT",4,-3)
@@ -839,7 +839,7 @@
 			--ci[i]:SetStatusBarColor(.95,.88,.48)
 			ci[i]:SetFrameLevel(11)
 			ci[i].SetVertexColor = ci[i].SetStatusBarColor
-			local h = CreateFrame("Frame", nil, ci[i])
+			local h = CreateFrame("Frame", nil, ci[i], "BackdropTemplate")
 			h:SetFrameLevel(10)
 			h:SetPoint("TOPLEFT",-4,3)
 			h:SetPoint("BOTTOMRIGHT",4,-3)
@@ -985,7 +985,7 @@
 		t:SetMinMaxValues(0, 1)
 
 		--backdrop shadow
-		local h = CreateFrame("Frame",nil,t)
+		local h = CreateFrame("Frame",nil,t,"BackdropTemplate")
 		h:SetFrameLevel(tb:GetFrameLevel())
 		h:SetPoint("TOPLEFT",-4,3)
 		h:SetPoint("BOTTOMRIGHT",4,-3)
@@ -1133,7 +1133,7 @@
     t:SetFrameLevel(30)
     t:SetAlpha(0.8)
     t.trinketUseAnnounce = true
-    t.bg = CreateFrame("Frame", nil, t)
+    t.bg = CreateFrame("Frame", nil, t, "BackdropTemplate")
     t.bg:SetPoint("TOPLEFT",-4,4)
     t.bg:SetPoint("BOTTOMRIGHT",4,-4)
     t.bg:SetBackdrop(backdrop_tab);
@@ -1213,7 +1213,7 @@
   local AltPowerPostUpdate = function(app, cur, min, max)
 	--app.v:SetText(cur)
 	local self = app.__owner
-    local tex, r, g, b = UnitAlternatePowerTextureInfo(self.unit, 2)
+    local tex, r, g, b = GetUnitPowerBarTextureInfo(self.unit, 2)
 	if not tex then return end
 	if tex == 629029 then
 		app:SetStatusBarColor(.7, .3, 1)
@@ -1244,7 +1244,7 @@
 	apb.bg:SetTexture(cfg.oUF.media.statusbar)
 	apb.bg:SetVertexColor(.18, .18, .18, 1)
 
-	apb.b = CreateFrame("Frame", nil, apb)
+	apb.b = CreateFrame("Frame", nil, apb, "BackdropTemplate")
 	apb.b:SetFrameLevel(f.Health:GetFrameLevel() + 1)
 	apb.b:SetPoint("TOPLEFT", apb, "TOPLEFT", -4, 4)
 	apb.b:SetPoint("BOTTOMRIGHT", apb, "BOTTOMRIGHT", 4, -5)
@@ -1260,7 +1260,7 @@
 	f.AlternativePower.PostUpdate = AltPowerPostUpdate
   end
 
-  lib.PostUpdateAdditionalPower = function(s, u, cur, max)
+  lib.PostUpdateAdditionalPower = function(s, cur, max)
 --	  if not cfg.oUF.settings.ReverseHPbars then s.bd:SetVertexColor(.8,.5,.5) else s.bd:SetVertexColor(.15,.15,.15) end
   end
 
@@ -1274,7 +1274,7 @@
 	s:SetSize(f.width*0.7, f.height/3)
 	s:SetOrientation("HORIZONTAL")
 	--shadow backdrop
-	local h = CreateFrame("Frame", nil, s)
+	local h = CreateFrame("Frame", nil, s, "BackdropTemplate")
 	--h:SetFrameLevel(3)
 	h:SetFrameLevel(s:GetFrameLevel()-2)
 	h:SetPoint("TOPLEFT",-4,4)

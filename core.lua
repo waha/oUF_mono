@@ -309,6 +309,11 @@ oUF:Factory(function(self)
 	'oUF-initialConfigFunction', init:format(w,h,s,ph,ph),
 	'showParty',true,
 	'template','oUF_monoPartyPet',
+--	"showPlayer", true,
+--	'groupBy', (cfg.oUF.frames.party.sort and 'GROUP' or 'ASSIGNEDROLE'),
+--	'groupBy', 'ASSIGNEDROLE',
+--	'groupingOrder', 'TANK,HEALER,DAMAGER',
+--	'groupingOrder', cfg.oUF.frames.party.sortorder,
 	--'useOwnerUnit', true,
 	'yOffset', -cfg.oUF.frames.party.spacing)
     party:SetPoint(unpack(cfg.oUF.frames.party.position))
@@ -345,7 +350,7 @@ oUF:Factory(function(self)
 		arenaprep[i].Health:SetAllPoints()
 		arenaprep[i].Health:SetStatusBarTexture(cfg.oUF.media.statusbar)
 
-		local h = CreateFrame("Frame", nil, arenaprep[i].Health)
+		local h = CreateFrame("Frame", nil, arenaprep[i].Health, "BackdropTemplate")
 		h:SetFrameLevel(0)
 		h:SetPoint("TOPLEFT",-4,4)
 		h:SetPoint("BOTTOMRIGHT",4,-4)
@@ -359,7 +364,7 @@ oUF:Factory(function(self)
 		arenaprep[i].Power:SetPoint("TOPLEFT",arenaprep[i].Health,"BOTTOMLEFT",0,-2)
 		arenaprep[i].Power:SetStatusBarTexture(cfg.oUF.media.statusbar)
 
-		local h2 = CreateFrame("Frame",nil,arenaprep[i].Power)
+		local h2 = CreateFrame("Frame",nil,arenaprep[i].Power, "BackdropTemplate")
 		h2:SetFrameLevel(0)
 		h2:SetPoint("TOPLEFT",-3.5,5)
 		h2:SetPoint("BOTTOMRIGHT",3.5,-5)

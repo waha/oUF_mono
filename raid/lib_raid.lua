@@ -3,7 +3,6 @@
   local oUF = ns.oUF or oUF
   local lib = ns.lib
   local lib_raid = CreateFrame("Frame")
-
   -----------------------------
   -- local variables
   -----------------------------
@@ -156,6 +155,7 @@
     local b = s:CreateTexture(nil, "BACKGROUND")
     b:SetTexture(cfg.oUF.media.statusbar)
     b:SetAllPoints(s)
+--	b:SetFrameLevel(s:GetFrameLevel()-1)
     f.Health = s
     f.Health.bg = b
     s.PostUpdate = PostUpdateHealth
@@ -202,7 +202,7 @@
 
   lib_raid.gen_elements = function(f)
     -- Target tex
-    local tB = CreateFrame("Frame", nil, f)
+    local tB = CreateFrame("Frame", nil, f, "BackdropTemplate")
     tB:SetPoint("TOPLEFT", f, "TOPLEFT")
     tB:SetPoint("BOTTOMRIGHT", f, "BOTTOMRIGHT")
     tB:SetBackdrop(border)
@@ -211,7 +211,7 @@
     f.TargetBorder = tB
 
     -- Focus tex
-    local fB = CreateFrame("Frame", nil, f)
+    local fB = CreateFrame("Frame", nil, f, "BackdropTemplate")
     fB:SetPoint("TOPLEFT", f, "TOPLEFT")
     fB:SetPoint("BOTTOMRIGHT", f, "BOTTOMRIGHT")
     fB:SetBackdrop(border)
@@ -228,7 +228,7 @@
     f.raidDebuffs = debuffs
 
     -- Threat
-    local t = CreateFrame("Frame", nil, f)
+    local t = CreateFrame("Frame", nil, f, "BackdropTemplate")
     t:SetPoint("TOPLEFT", f, "TOPLEFT", -4, 4)
     t:SetPoint("BOTTOMRIGHT", f, "BOTTOMRIGHT", 4, -4)
     t:SetFrameStrata("LOW")
