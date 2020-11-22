@@ -1,5 +1,5 @@
 ## Interface: 90001
-## Version: 5.3.1f
+## Version: 5.3.1g
 ## Title: oUF |cffffffffmono|r (fan update)
 ## Notes: oUF layout
 ## OptionalDeps: oUF_Smooth, oUF_HealComm, oUF_Swing
