@@ -343,10 +343,10 @@
   end
 
   lib_raid.upd_elements = function(f)
-    f:RegisterEvent('PLAYER_FOCUS_CHANGED', FocusTarget)
-    f:RegisterEvent('RAID_ROSTER_UPDATE', FocusTarget)
-    f:RegisterEvent('PLAYER_TARGET_CHANGED', ChangedTarget)
-    f:RegisterEvent('RAID_ROSTER_UPDATE', ChangedTarget)
+--    f:RegisterEvent('PLAYER_FOCUS_CHANGED', FocusTarget)
+--    f:RegisterEvent('RAID_ROSTER_UPDATE', FocusTarget)
+--    f:RegisterEvent('PLAYER_TARGET_CHANGED', ChangedTarget)
+--    f:RegisterEvent('RAID_ROSTER_UPDATE', ChangedTarget)
   end
 
   --hand the lib to the namespace for further usage
