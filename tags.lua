@@ -220,6 +220,18 @@ oUF.Tags.Methods['mono:addpower'] = function(u)
 end
 oUF.Tags.Events['mono:addpower'] = oUF.Tags.Events.missingpp
 
+oUF.Tags.Methods['mono:stagger'] = function(u)
+--  local id, str = UnitPowerType(u)
+--  local min, max = UnitPower(u, 0), UnitPowerMax(u, 0)
+  local col = pcolors.power['MANA']
+--  if cfg.oUF.settings.class_color_power then col = oUF.colors.class[select(2,UnitClass(u))] end
+  if UnitStagger(u) and UnitStagger(u) ~= 0 then
+    return hex(col)..SVal(UnitStagger(u))
+  end
+--  return u == 'player' and UnitPowerType(u) ~= 0 and ('|cff5F9BFF%d%%|r'):format(min / max * 100)
+end
+oUF.Tags.Events['mono:stagger'] = oUF.Tags.Events.missingpp
+
 -- name tags
 oUF.Tags.Methods['mono:name'] = function(u, r)
   local name = UnitName(r or u)

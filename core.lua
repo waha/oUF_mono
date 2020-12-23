@@ -72,6 +72,7 @@
 		lib.gen_TotemBar(self)
 	end
 	if class == "DRUID" then lib.gen_AdditionalPower(self) end
+	if class == "MONK" then lib.gen_Stagger(self) end
 
 	if cfg.oUF.settings.ClassBars.position then
 		lib.gen_alt_powerbar(self)

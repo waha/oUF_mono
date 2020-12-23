@@ -427,12 +427,15 @@
     end
 
 	s.OnUpdate = cast.OnCastbarUpdate
+--s.PostCastUpdate = cast.OnCastbarUpdate
 	s.PostCastStart = cast.PostCastStart
-	s.PostChannelStart = cast.PostCastStart
+--	s.PostChannelStart = cast.PostCastStart
 	s.PostCastStop = cast.PostCastStop
-	s.PostChannelStop = cast.PostChannelStop
-	s.PostCastFailed = cast.PostCastFailed
+--	s.PostChannelStop = cast.PostChannelStop
+--	s.PostCastFailed = cast.PostCastFailed
 	s.PostCastInterrupted = cast.PostCastFailed
+	s.PostCastInterruptible = cast.PostCastFailed
+	s.PostCastFail = cast.PostCastFailed
 
     f.Castbar = s
     f.Castbar.Text = txt
@@ -1290,9 +1293,9 @@
 	b:SetVertexColor(.1,.1,.3)
 
 	s.colorPower = true
-	s.PostUpdate = lib.PostUpdateAdditionalPower
+--	s.PostUpdate = lib.PostUpdateAdditionalPower
 	f.AdditionalPower = s
-	f.AdditionalPower.bd = b
+	f.AdditionalPower.bg = b
 
 	local h = CreateFrame("Frame", nil, f)
 	h:SetAllPoints(f.AdditionalPower)
@@ -1303,6 +1306,44 @@
 	pp.frequentUpdates = 0.2 -- test it!!1
 	f:Tag(pp, '[mono:addpower]')
 --	if cfg.oUF.settings.class_color_power then s.PreUpdate = lib.PreUpdatePower end
+  end
+  
+  lib.gen_Stagger = function(f)
+	local s = CreateFrame("StatusBar", nil, f)
+	s:SetStatusBarTexture(cfg.oUF.media.statusbar)
+	fixStatusbar(s)
+	s:SetPoint('CENTER', f.Health, 'TOP', 0, 1)
+	if cfg.oUF.settings.ClassBars.undock then s:ClearAllPoints() s:SetPoint(unpack(cfg.oUF.settings.ClassBars.position)) end
+	s:SetFrameLevel(10)
+	s:SetSize(f.width*0.7, f.height/3)
+	s:SetOrientation("HORIZONTAL")
+	--shadow backdrop
+	local h = CreateFrame("Frame", nil, s, "BackdropTemplate")
+	--h:SetFrameLevel(3)
+	h:SetFrameLevel(s:GetFrameLevel()-2)
+	h:SetPoint("TOPLEFT",-4,4)
+	h:SetPoint("BOTTOMRIGHT",4,-4)
+	lib.gen_backdrop(h)
+	--bar bg
+	local bg = CreateFrame("Frame", nil, s)
+	bg:SetFrameLevel(s:GetFrameLevel()-1)
+	bg:SetAllPoints(s)
+	local b = bg:CreateTexture(nil, "BACKGROUND")
+	b:SetTexture(cfg.oUF.media.statusbar)
+	b:SetAllPoints(s)
+	b:SetVertexColor(.1,.1,.3)
+
+	f.Stagger = s
+	f.Stagger.bg = b
+
+	local h = CreateFrame("Frame", nil, f)
+	h:SetAllPoints(f.Stagger)
+	h:SetFrameLevel(10)
+	local fh = 11
+	local pp = lib.gen_fontstring(h, cfg.oUF.media.font, fh, "THINOUTLINE")
+	pp:SetPoint("RIGHT", f.Stagger, "RIGHT",-5,0)
+	pp.frequentUpdates = 0.2 -- test it!!1
+	f:Tag(pp, '[mono:stagger]')
   end
 --hand the lib to the namespace for further usage
   ns.lib = lib
