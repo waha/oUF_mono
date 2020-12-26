@@ -154,7 +154,7 @@
     s:SetOrientation("HORIZONTAL")
 	s:SetFrameLevel(6)
     --shadow backdrop
-    local h = CreateFrame("Frame", nil, s, "BackdropTemplate")
+    local h = CreateFrame("Frame", nil, s, BackdropTemplateMixin and "BackdropTemplate")
     --h:SetFrameLevel(3)
 	h:SetFrameLevel(s:GetFrameLevel()-2)
     h:SetPoint("TOPLEFT",-4,4)
@@ -175,7 +175,7 @@
 	end
 	-- threat border
 	if f.mystyle == "party" then
-		bg.t = CreateFrame("Frame", nil,bg,"BackdropTemplate")
+		bg.t = CreateFrame("Frame", nil,bg, BackdropTemplateMixin and "BackdropTemplate")
 		bg.t:SetPoint("TOPLEFT", bg, "TOPLEFT", -1, 1)
 		bg.t:SetPoint("BOTTOMRIGHT", bg, "BOTTOMRIGHT", 1, -1)
 		bg.t:SetBackdrop({edgeFile = "Interface\\ChatFrame\\ChatFrameBackground", edgeSize = 1,
@@ -275,7 +275,7 @@
     s:SetPoint("TOP",f,"BOTTOM",0,-2)
 	s:SetFrameLevel(6)
     --helper
-    local h = CreateFrame("Frame", nil, s, "BackdropTemplate")
+    local h = CreateFrame("Frame", nil, s, BackdropTemplateMixin and "BackdropTemplate")
     h:SetFrameLevel(s:GetFrameLevel()-2)
     h:SetPoint("TOPLEFT",-4,4)
     h:SetPoint("BOTTOMRIGHT",4,-4)
@@ -329,7 +329,7 @@
 ------ [Castbar, +mirror castbar]
   --gen castbar
   lib.gen_castbar = function(f)
-    local s = CreateFrame("StatusBar", "oUF_monoCastbar"..f.mystyle, f, "BackdropTemplate")
+    local s = CreateFrame("StatusBar", "oUF_monoCastbar"..f.mystyle, f, BackdropTemplateMixin and "BackdropTemplate")
     s:SetSize(f.width-(f.height/1.4+4),f.height/1.4)
     s:SetStatusBarTexture(cfg.oUF.media.statusbar)
     s:SetStatusBarColor(unpack(cfg.oUF.castbar.color.normal),1)
@@ -340,7 +340,7 @@
     s.FailColor = {1.0, 0.09, 0}
     s.ChannelingColor = {unpack(cfg.oUF.castbar.color.normal)}
     --helper
-    local h = CreateFrame("Frame", nil, s, "BackdropTemplate")
+    local h = CreateFrame("Frame", nil, s, BackdropTemplateMixin and "BackdropTemplate")
     h:SetFrameLevel(0)
     h:SetPoint("TOPLEFT",-4,4)
     h:SetPoint("BOTTOMRIGHT",4,-4)
@@ -369,7 +369,7 @@
     i:SetPoint("RIGHT", s, "LEFT", -4.5, 0)
     i:SetTexCoord(0.1, 0.9, 0.1, 0.9)
     --helper2 for icon
-    local h2 = CreateFrame("Frame", nil, s, "BackdropTemplate")
+    local h2 = CreateFrame("Frame", nil, s, BackdropTemplateMixin and "BackdropTemplate")
     h2:SetFrameLevel(0)
     h2:SetPoint("TOPLEFT",i,"TOPLEFT",-5,5)
     h2:SetPoint("BOTTOMRIGHT",i,"BOTTOMRIGHT",5,-5)
@@ -466,7 +466,7 @@
       _G[bar..'Text']:SetPoint('CENTER', _G[bar..'StatusBar'], 0, 0)
 	  _G[bar..'StatusBar']:SetAllPoints(_G[bar])
       --glowing borders
-      local h = CreateFrame("Frame", nil, _G[bar], "BackdropTemplate")
+      local h = CreateFrame("Frame", nil, _G[bar], BackdropTemplateMixin and "BackdropTemplate")
       h:SetFrameLevel(0)
       h:SetPoint("TOPLEFT",-4,4)
       h:SetPoint("BOTTOMRIGHT",4,-4)
@@ -602,7 +602,7 @@
     button.count:SetPoint("BOTTOMRIGHT", 2, -2)
     button.count:SetTextColor(1,1,1)
     --button backdrop
-    button.bd = CreateFrame("Frame", nil, button, "BackdropTemplate")
+    button.bd = CreateFrame("Frame", nil, button, BackdropTemplateMixin and "BackdropTemplate")
     button.bd:SetFrameLevel(0)
     button.bd:SetPoint("TOPLEFT",-4,4)
     button.bd:SetPoint("BOTTOMRIGHT",4,-4)
@@ -809,7 +809,7 @@
         r.bd:SetAllPoints()
         r.bd:SetTexture(cfg.oUF.media.statusbar)
         r.bd:SetVertexColor(0.15, 0.15, 0.15)
-		local h = CreateFrame("Frame", nil, r, "BackdropTemplate")
+		local h = CreateFrame("Frame", nil, r, BackdropTemplateMixin and "BackdropTemplate")
 		h:SetFrameLevel(10)
 		h:SetPoint("TOPLEFT",-4,3)
 		h:SetPoint("BOTTOMRIGHT",4,-3)
@@ -842,7 +842,7 @@
 			--ci[i]:SetStatusBarColor(.95,.88,.48)
 			ci[i]:SetFrameLevel(11)
 			ci[i].SetVertexColor = ci[i].SetStatusBarColor
-			local h = CreateFrame("Frame", nil, ci[i], "BackdropTemplate")
+			local h = CreateFrame("Frame", nil, ci[i], BackdropTemplateMixin and "BackdropTemplate")
 			h:SetFrameLevel(10)
 			h:SetPoint("TOPLEFT",-4,3)
 			h:SetPoint("BOTTOMRIGHT",4,-3)
@@ -880,7 +880,7 @@
 		wsb[i].bg:SetPoint("BOTTOMRIGHT",wsb[i],"BOTTOMRIGHT",0,0)
 		wsb[i].bg.multiplier = .3
 
-		local h = CreateFrame("Frame",nil,wsb[i])
+		local h = CreateFrame("Frame",nil,wsb[i], BackdropTemplateMixin and "BackdropTemplate")
 		h:SetFrameLevel(10)
 		h:SetPoint("TOPLEFT",-4,3)
 		h:SetPoint("BOTTOMRIGHT",4,-3)
@@ -904,7 +904,7 @@
 	if cfg.oUF.settings.ClassBars.undock then eb:ClearAllPoints() eb:SetPoint(unpack(cfg.oUF.settings.ClassBars.position)) end
 	eb:SetFrameLevel(10)
 	eb:SetSize(f.width*0.7, f.height/3)
-	local h = CreateFrame("Frame", nil, eb)
+	local h = CreateFrame("Frame", nil, eb, BackdropTemplateMixin and "BackdropTemplate")
 	h:SetPoint("TOPLEFT",-3,3)
 	h:SetPoint("BOTTOMRIGHT",3,-3)
 	lib.gen_backdrop(h)
@@ -988,7 +988,7 @@
 		t:SetMinMaxValues(0, 1)
 
 		--backdrop shadow
-		local h = CreateFrame("Frame",nil,t,"BackdropTemplate")
+		local h = CreateFrame("Frame",nil,t, BackdropTemplateMixin and "BackdropTemplate")
 		h:SetFrameLevel(tb:GetFrameLevel())
 		h:SetPoint("TOPLEFT",-4,3)
 		h:SetPoint("BOTTOMRIGHT",4,-3)
@@ -1136,7 +1136,7 @@
     t:SetFrameLevel(30)
     t:SetAlpha(0.8)
     t.trinketUseAnnounce = true
-    t.bg = CreateFrame("Frame", nil, t, "BackdropTemplate")
+    t.bg = CreateFrame("Frame", nil, t, BackdropTemplateMixin and "BackdropTemplate")
     t.bg:SetPoint("TOPLEFT",-4,4)
     t.bg:SetPoint("BOTTOMRIGHT",4,-4)
     t.bg:SetBackdrop(backdrop_tab);
@@ -1172,7 +1172,7 @@
 	fhp:SetPoint("TOPLEFT",oUF_monoTargetFrame,"TOPLEFT",0,0)
 	fhp:SetStatusBarTexture(cfg.oUF.media.statusbar)
 	fhp:SetStatusBarColor(.3,.3,.3)
-	local h = CreateFrame("Frame",nil,fhp)
+	local h = CreateFrame("Frame",nil,fhp, BackdropTemplateMixin and "BackdropTemplate")
 	h:SetFrameLevel(0)
 	h:SetPoint("TOPLEFT",-3.5,5)
 	h:SetPoint("BOTTOMRIGHT",3.5,-5)
@@ -1183,7 +1183,7 @@
 	fpp:SetPoint("TOP",FakeHealthBar,"BOTTOM",0,-2)
 	fpp:SetStatusBarTexture(cfg.oUF.media.statusbar)
 	fpp:SetStatusBarColor(.30,.45,.65)
-	local h2 = CreateFrame("Frame",nil,fpp)
+	local h2 = CreateFrame("Frame",nil,fpp, BackdropTemplateMixin and "BackdropTemplate")
 	h2:SetFrameLevel(0)
 	h2:SetPoint("TOPLEFT",-3.5,5)
 	h2:SetPoint("BOTTOMRIGHT",3.5,-5)
@@ -1247,7 +1247,7 @@
 	apb.bg:SetTexture(cfg.oUF.media.statusbar)
 	apb.bg:SetVertexColor(.18, .18, .18, 1)
 
-	apb.b = CreateFrame("Frame", nil, apb, "BackdropTemplate")
+	apb.b = CreateFrame("Frame", nil, apb, BackdropTemplateMixin and "BackdropTemplate")
 	apb.b:SetFrameLevel(f.Health:GetFrameLevel() + 1)
 	apb.b:SetPoint("TOPLEFT", apb, "TOPLEFT", -4, 4)
 	apb.b:SetPoint("BOTTOMRIGHT", apb, "BOTTOMRIGHT", 4, -5)
@@ -1277,7 +1277,7 @@
 	s:SetSize(f.width*0.7, f.height/3)
 	s:SetOrientation("HORIZONTAL")
 	--shadow backdrop
-	local h = CreateFrame("Frame", nil, s, "BackdropTemplate")
+	local h = CreateFrame("Frame", nil, s, BackdropTemplateMixin and "BackdropTemplate")
 	--h:SetFrameLevel(3)
 	h:SetFrameLevel(s:GetFrameLevel()-2)
 	h:SetPoint("TOPLEFT",-4,4)
@@ -1318,7 +1318,7 @@
 	s:SetSize(f.width*0.7, f.height/3)
 	s:SetOrientation("HORIZONTAL")
 	--shadow backdrop
-	local h = CreateFrame("Frame", nil, s, "BackdropTemplate")
+	local h = CreateFrame("Frame", nil, s, BackdropTemplateMixin and "BackdropTemplate")
 	--h:SetFrameLevel(3)
 	h:SetFrameLevel(s:GetFrameLevel()-2)
 	h:SetPoint("TOPLEFT",-4,4)
