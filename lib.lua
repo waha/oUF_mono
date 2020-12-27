@@ -37,6 +37,9 @@
 
   --backdrop func
   lib.gen_backdrop = function(f)
+  	if not f.SetBackdrop then
+		Mixin(f, BackdropTemplateMixin)
+	end
     f:SetBackdrop(backdrop_tab);
     f:SetBackdropColor(.1,.1,.1,1)
     f:SetBackdropBorderColor(0,0,0,1)
